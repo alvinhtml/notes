@@ -1,0 +1,15 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "this is my note",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist/* && gitbook build"
+  },
+  "author": "alvinhtml@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "gitbook-cli": "^2.3.2"
+  }
+}
