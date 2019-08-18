@@ -11,4 +11,5 @@
   * [Atom](developer/atom.md)
   * [Kubernetes](developer/kubernetes.md)
   * [TSDB 普罗米修斯](developer/prometheus.md)
+  * [Shell 学习笔记](developer/shell.md)
 * [理解释计算机](computer/README.md)
