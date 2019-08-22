@@ -3,6 +3,7 @@
 * [前言](README.md)
 * [Javascript](javascript/README.md)
   * [JavaScript常用工具函数](javascript/function.md)
+  * [NodeJs异步机制和基本原理](javascript/nodejs-async.md)
 * [HTML](html/README.md)
   * [HTML Entity 字符实体(字符转义)](html/htmlEntity.md)
 * [CSS](css/README.md)
