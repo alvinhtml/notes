@@ -1,12 +1,12 @@
 # Summary
 
 * [前言](README.md)
-* [Javascript](javascript/README.md)
-  * [JavaScript常用工具函数](javascript/function.md)
-  * [NodeJs异步机制和基本原理](javascript/nodejs-async.md)
-* [HTML](html/README.md)
-  * [HTML Entity 字符实体(字符转义)](html/htmlEntity.md)
-* [CSS](css/README.md)
+* [web开发](web/README.md)
+  * [JavaScript常用工具函数](web/function.md)
+  * [NodeJs异步机制和基本原理](web/nodejs-async.md)
+  * [JS call apply bind 的区别](web/call-apply-bind.md)
+  * [HTML Entity 字符实体(字符转义)](web/htmlEntity.md)
+  * [跨域](web/cross-domain.md)
 * [算法与数学](algorithm/README.md)
 * [开发者手册](developer/README.md)
   * [Atom](developer/atom.md)
