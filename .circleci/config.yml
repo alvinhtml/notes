@@ -1,0 +1,65 @@
+# Javascript Node CircleCI 2.0 configuration file
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:11
+
+    # working_directory 属性是用来定义steps 在哪个目录运行，默认为 ~/project/
+    working_directory: ~/note
+
+    steps:
+      - run: echo "Start build"
+
+      # 将分支中的代码检出到 working_directory
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+
+            # 如果找不到完全匹配，则回退到使用最新缓存
+            - v1-dependencies-
+      - run: npm install
+      # - run: npm run lint
+      - run: npm run build
+
+      - save_cache:
+          paths:
+            - ./node_modules
+            - ~/.gitbook
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # 用于持久保存临时文件以供工作流中的其他作业使用的特殊步骤
+      - persist_to_workspace:
+          root: ~/note
+          paths: .
+      - run: echo "End the build"
+
+  deploy:
+    machine:
+      enabled: true
+    working_directory: ~/note
+    steps:
+      - run: echo "Start deployment"
+      - attach_workspace:
+          at: ~/note
+      - run: pwd && ls -al
+      - run:
+          name: Deploy over SSH
+          command: sh ./.circleci/deploy-master.sh ${HOST} ${PORT}
+      - run: echo "Deployed"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
