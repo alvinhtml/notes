@@ -15,5 +15,7 @@
   * [NPM 学习笔记](developer/npm.md)
   * [Shell 学习笔记](developer/shell.md)
   * [SSH Keys](developer/sshkey.md)
+  * [NoSQL 简介](developer/nosql.md)
 * [理解释计算机](computer/README.md)
   * [HTML5 WebSocket](computer/websocket.md)
+  * [NoSQL 简介](computer/nosql.md)
