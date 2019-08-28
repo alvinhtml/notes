@@ -7,6 +7,7 @@
   * [JS call apply bind 的区别](web/call-apply-bind.md)
   * [HTML Entity 字符实体(字符转义)](web/htmlEntity.md)
   * [跨域](web/cross-domain.md)
+  * [MutationObserver](web/mutation-observer.md)
 * [算法与数学](algorithm/README.md)
 * [开发者手册](developer/README.md)
   * [Atom](developer/atom.md)
