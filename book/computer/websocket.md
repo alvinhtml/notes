@@ -53,9 +53,9 @@ HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
 Connection: Upgrade
 Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+```
 我们可以看到这是一个状态码为101的响应，响应的头内容基本和request可以对应，Sec-WebSocket-Accept是服务端利用Key和UUID拼接后再进行base64编码产生的一个值，由客户端进行验证。
 这样，我们的连接时握手就完成了。
-```
 
 ## 数据帧
 
@@ -154,6 +154,125 @@ ws.onmessage = function(evt) {
 ws.onclose = function(evt) {
   console.log("Connection closed.");
 };
+```
+
+## WebSocket API
+
+客户端若想要与支持webScoket的服务器通信，可以使用WebSocket构造函数返回WebSocket对象。
+
+```js
+const ws = new WebSocket("ws://localhost:3000/websocket");
+```
+
+这样，客户端就会与服务端开始连接。返回的实例对象的属性：
+
+WebSocket.onopen： 连接成功后的回调
+WebSocket.onclose： 连接关闭后的回调
+WebSocket.onerror： 连接失败后的回调
+WebSocket.onmessage： 客户端接收到服务端数据的回调
+webSocket.bufferedAmount： 未发送至服务器的二进制字节数
+WebSocket.binaryType： 使用二进制的数据类型连接
+WebSocket.protocol ： 服务器选择的下属协议
+WebSocket.url ： WebSocket 的绝对路径
+WebSocket.readyState： 当前连接状态，对应的四个常量
+
+WebSocket.CONNECTING: 0
+WebSocket.OPEN: 1
+WebSocket.CLOSING: 2
+WebSocket.CLOSED: 3
+
+WebSocket.close() 关闭当前连接
+WebSocket.send(data) 向服务器发送数据
+
+
+## 示例
+
+实现WebSocket通信，需要客户端和服务端配合。服务端在开始连接后，利用定时器主动向客户端发送随机数，客户端也可以发给服务器消息，然后服务器返回这条消息给客户端。客户端就是js+html，服务端用了express + express-ws来实现。
+
+```html
+<body>
+  <div class="websocket">
+    <div class="receive">
+      <p>服务端返回的消息</p>
+      <div id="receive-box"></div>
+    </div>
+    <div class="send">
+      <textarea type="text" id="msg-need-send"></textarea>
+      <p>
+        <button id="send-btn">点击发消息给服务端</button>
+      </p>
+    </div>
+    <button id="exit">关闭连接</button>
+  </div>
+</body>
+```
+
+js，使用webSocket的代码都在这里。做的事情就是给页面的元素绑定事件。然后创建WebSocket对象，监听对象的连接、接收消息、关闭等事件，将数据反馈到页面中
+
+```js
+const msgBox = document.getElementById("msg-need-send")
+const sendBtn = document.getElementById("send-btn")
+const exit = document.getElementById("exit")
+const receiveBox = document.getElementById("receive-box")
+
+// 创建一个webSocket对象
+const ws = new WebSocket("ws://127.0.0.1:3000/websocket/test")
+ws.onopen = e => {
+  // 连接后监听
+  console.log(`WebSocket 连接状态： ${ws.readyState}`)
+}
+
+ws.onmessage = data => {
+  // 当服务端返回数据的时候，放到页面里
+  receiveBox.innerHTML += `<p>${data.data}</p>`
+  receiveBox.scrollTo({
+    top: receiveBox.scrollHeight,
+    behavior: "smooth"
+  })
+}
+
+ws.onclose = data => {
+  // 监听连接关闭
+  console.log("WebSocket连接已关闭")
+  console.log(data);
+}
+
+sendBtn.onclick = () => {
+  // 点击发送按钮。将数据发送给服务端
+  ws.send(msgBox.value)
+}
+exit.onclick = () => {
+  // 客户端主动关闭连接
+  ws.close()
+}
+```
+
+服务端考虑到了模块化开发，没有直接把代码放到直接创建服务的文件中。而是使用了路由，给webSocket服务分配一个单独的接口const
+
+```js
+express = require("express");
+const expressWs = require("express-ws")
+const router = express.Router()
+expressWs(router);
+
+router.ws("/test", (ws, req) => {
+  ws.send("连接成功")
+  let interval
+  // 连接成功后使用定时器定时向客户端发送数据，同时要注意定时器执行的时机，要在连接开启状态下才可以发送数据
+  interval = setInterval(() => {
+    if (ws.readyState === ws.OPEN) {
+      ws.send(Math.random().toFixed(2))
+    } else {
+      clearInterval(interval)
+    }
+  }, 1000)
+  // 监听客户端发来的数据，直接将信息原封不动返回回去
+  ws.on("message", msg => {
+    ws.send(msg)
+  })
+})
+
+module.exports = router
 ```
 
 WebSocket 实例对象的所有属性和方法清单，参见[这里](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)。   
