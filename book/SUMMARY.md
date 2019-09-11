@@ -19,6 +19,7 @@
   * [Shell 学习笔记](developer/shell.md)
   * [SSH Keys](developer/sshkey.md)
   * [NoSQL 简介](developer/nosql.md)
+  * [Linux常用命令](developer/linux-command.md)
 * [理解释计算机](computer/README.md)
   * [HTML5 WebSocket](computer/websocket.md)
   * [NoSQL 简介](computer/nosql.md)
