@@ -11,6 +11,8 @@
   * [MutationObserver](web/mutation-observer.md)
   * [MutationObserver](web/mutation-observer.md)
   * [Web Components](web/web-components.md)
+  * [Webassembly](web/web-assembly.md.md)
+  * [TypeScript](web/typescript.md)
 * [算法与数学](algorithm/README.md)
 * [开发者手册](developer/README.md)
   * [Atom](developer/atom.md)
