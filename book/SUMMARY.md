@@ -3,6 +3,7 @@
 * [前言](README.md)
 * [web开发](web/README.md)
   * [HTML/CSS](web/html.md)
+  * [DOM API](web/dom.md)
   * [JavaScript常用工具函数](web/function.md)
   * [JavaScript Event Loop](web/javascript-event-loop.md)
   * [NodeJs异步机制和基本原理](web/nodejs-async.md)
