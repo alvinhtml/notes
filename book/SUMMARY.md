@@ -26,6 +26,7 @@
   * [Kubernetes](developer/kubernetes.md)
   * [TSDB 普罗米修斯](developer/prometheus.md)
   * [NPM 学习笔记](developer/npm.md)
+  * [RegExp 正则表达式](developer/regexp.md)
   * [Shell 学习笔记](developer/shell.md)
   * [SSH Keys](developer/sshkey.md)
   * [NoSQL 简介](developer/nosql.md)
