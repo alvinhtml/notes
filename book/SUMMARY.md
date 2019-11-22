@@ -35,5 +35,6 @@
   * [Sequelize](developer/sequelize.md)
 * [理解释计算机](computer/README.md)
   * [HTML5 WebSocket](computer/websocket.md)
+  * [HTML5 EventSource](computer/eventsource.md)
   * [NoSQL 简介](computer/nosql.md)
   * [防火墙](computer/firewall.md)
