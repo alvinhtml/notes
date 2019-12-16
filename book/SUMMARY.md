@@ -5,6 +5,7 @@
   * [HTML/CSS](web/html.md)
   * [DOM API](web/dom.md)
   * [CSS3](web/css3.md)
+  * [IndexedDB](web/IndexedDB.md)
   * [JavaScript API](web/javascript-api.md)
   * [JavaScript常用工具函数](web/function.md)
   * [JavaScript Event Loop](web/javascript-event-loop.md)
