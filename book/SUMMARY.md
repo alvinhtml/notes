@@ -20,6 +20,7 @@
   * [TypeScript](web/typescript.md)
   * [Koa 学习笔记](web/koa.md)
 * [算法与数学](algorithm/README.md)
+  * [排序算法](algorithm/sort.md)
 * [开发者手册](developer/README.md)
   * [Atom](developer/atom.md)
   * [C语言](web/c.md)

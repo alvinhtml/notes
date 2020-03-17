@@ -1,5 +1,47 @@
 # Docker 学习笔记
 
+## 登录 docker login
+
+```bash
+docker login quay.io/alvinhtml/test
+# 输入 username
+# 输入 password
+```
+
+## docker images
+
+```bash
+docker images
+```
+
+## docker tag
+
+```bash
+docker tag images_id alpine:test
+docker tag my-alpine quay.io/alvinhtml/my-alpine
+docker push quay.io/alvinhtml/my-alpine
+````
+
+## docker ps 列出容器
+
+语法：
+```bash
+docker ps [OPTIONS]
+```
+OPTIONS说明：
+
+参数|说明
+-:|-
+-a |显示所有的容器，包括未运行的。
+-f |根据条件过滤显示的内容。
+--format |指定返回值的模板文件。
+-l |显示最近创建的容器。
+-n |列出最近创建的n个容器。
+--no-trunc |不截断输出。
+-q |静默模式，只显示容器编号。
+-s |显示总的文件大小。
+
+
 
 ## Docker run 命令
 
@@ -31,25 +73,6 @@ OPTIONS说明：
 --expose=[]|开放一个端口或一组端口；
 
 
-## docker ps 列出容器
-
-语法：
-```bash
-docker ps [OPTIONS]
-```
-OPTIONS说明：
-
-参数|说明
--:|-
--a |显示所有的容器，包括未运行的。
--f |根据条件过滤显示的内容。
---format |指定返回值的模板文件。
--l |显示最近创建的容器。
--n |列出最近创建的n个容器。
---no-trunc |不截断输出。
--q |静默模式，只显示容器编号。
--s |显示总的文件大小。
-
 ### 运行一个容器
 docker run --name=node8 -v $PWD:/app -p 7070:7070 -w /app -it node:8 bash
 docker run --name=rancher-node8 -w /app -v $PWD:/app -p 8000:8000 -it bash
@@ -57,14 +80,21 @@ docker run --name=rancher-node8 -w /app -v $PWD:/app -p 8000:8000 -it bash
 
 ### 启动一个 Docker 容器
 
-docker start fe
+```bash
+docker start containername
+```
 
 ### 运行 docker 下的 bash
 
-docker exec -it fe bash
+```bash
+docker exec -it containername bash
+```
 
 ### 退出 docker 下的 bash
+
+```bash
 exit;
+```
 
 ## docker build
 
