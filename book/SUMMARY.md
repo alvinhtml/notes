@@ -32,7 +32,7 @@
   * [NPM 学习笔记](developer/npm.md)
   * [RegExp 正则表达式](developer/regexp.md)
   * [Shell 学习笔记](developer/shell.md)
-  * [SSH Keys](developer/sshkey.md)
+  * [SSH原理与运用](developer/ssh.md)
   * [NoSQL 简介](developer/nosql.md)
   * [Linux常用命令](developer/linux-command.md)
   * [Sequelize](developer/sequelize.md)
