@@ -130,6 +130,45 @@ service ssh restart
 ssh user@host 'mkdir -p .ssh && cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub
 ```
 
+注意，其它用户不能对 `authorized_keys` 有写的权限，否则 sshd 将不允许使用该文件，因为它可能会被其他用户篡改。
+
+```sh
+chmod 700 .ssh
+chmod 644 .ssh/authorized_keys
+```
+
+### 免密码登录无效问
+
+执行 `sudo cat /var/log/secure` 查看系统的安全日志，如果出现：
+
+```
+pam_succeed_if(sshd:auth): requirement "uid >= 1000" not met by user "root".
+```
+表示PAM相关模块的策略配置，禁止了UID小于1000的用户进行登录。
+
+解决方案为修改对应的PAM配置文件。
+
+```sh
+# 控制台（管理终端）对应配置文件
+vi /etc/pam.d/login
+
+# 登录对应配置文件
+vi /etc/pam.d/sshd
+
+# 系统全局配置文件
+vi /etc/pam.d/system-auth
+
+vim /etc/pam.d/password-auth
+```
+
+```sh
+auth        required      pam_succeed_if.so uid <= 1000      # 修改策略
+# auth        required      pam_succeed_if.so uid >= 1000   #取消相关配置
+```
+
+
+
+
 这条命令由多个语句组成，依次分解开来看：
 
 1. `$ ssh user@host` 表示登录远程主机；
@@ -225,6 +264,17 @@ ssh -p 9001 localhost
 ```
 
 上面的-p参数表示指定登录端口。
+
+### 科学上网实例
+
+```sh
+ssh -N -f -D 1080 root@181.215.182.246
+```
+执行命令后，设置代理 `SOCKS5 127.0.0.1 1080`。
+
+
+
+
 
 ## 远程端口转发
 
