@@ -31,7 +31,7 @@ Prometheus生态系统由多个组件组成，其中许多组件是可选的：
 
 此图说明了Prometheus的体系结构及其一些生态系统组件：
 
-![Prometheus体系结构](../assets/architecture.png)
+![Prometheus体系结构](../assets/architecture.jpg)
 
 Prometheus直接或通过中间推送网关从仪表工作中删除指标，用于短期工作。它在本地存储所有已删除的样本，并对此数据运行规则，以汇总和记录现有数据的新时间序列或生成警报。Grafana或其他API使用者可用于可视化收集的数据。
 

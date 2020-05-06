@@ -260,4 +260,6 @@ lsof -i:8081
 
 ```bash
 echo '123' >> a.txt
+# or
+cat circleci-rsa.pub >> authorized_keys
 ```
