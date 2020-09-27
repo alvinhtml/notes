@@ -76,11 +76,14 @@ git rebase master
 
 ### 删除远分支
 
-分支名前的冒号代表删除
-
 ```bash
+git push alvin-csphere-frontend --delete login-background
+
+# 分支名前的冒号代表删除
 git push alvin-ksphere :branch-name
 ```
+
+
 
 ### 批量删除分支
 
@@ -89,7 +92,7 @@ git branch |grep 'branchName' |xargs git branch -D
 ```
  - `git branch` 输出当前分支列表
  - `grep` 是对 `git branch` 的输出结果进行匹配，匹配值当然就是 `branchName`
- - `xargs` 的作用是将参数列表转换成小块分段传递给其他命令
+ - `xargs` 参数传递命令。用于将标准输入作为命令的参数传给下一个命令。
 
 
 
@@ -194,6 +197,8 @@ git pull alvin-ksphere master --allow-unrelated-histories
 ## cherry-pick
 
 ```bash
+git cherry-pick commit1 commit2 commit3 commit4 commit5
+
 # 不包含 commit1
 git cherry-pick commit1..commit5
 

@@ -14,13 +14,25 @@ docker login quay.io/alvinhtml/test
 docker images
 ```
 
+## docker pull
+
+```bash
+docker pull springcloud/eureka
+```
+
+
 ## docker tag
 
 ```bash
-docker tag images_id alpine:test
-docker tag my-alpine quay.io/alvinhtml/my-alpine
-docker push quay.io/alvinhtml/my-alpine
+docker tag springcloud/eureka:latest 192.168.14.3:443/library/eureka:latest
 ````
+
+## docker push
+
+```bash
+docker push 192.168.14.3:443/library/eureka
+```
+
 
 ## docker ps 列出容器
 
