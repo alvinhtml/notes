@@ -5,6 +5,7 @@
   * [HTML/CSS](web/html.md)
   * [DOM API](web/dom.md)
   * [CSS3](web/css3.md)
+  * [Canvas 绘制水波浪](web/canvas-wave.md)
   * [IndexedDB](web/IndexedDB.md)
   * [JavaScript API](web/javascript-api.md)
   * [JavaScript常用工具函数](web/function.md)
