@@ -160,3 +160,11 @@ JavaScript是单线程的，所谓单线程，是指在JS引擎中负责解释�
 #### 闭包的原理
 
 在 JavaScript 中，一函数能够访问它外部的变量，这种作用域范围被称作词法作用域，闭包的原理就是把整个词法作用域里的变量绑定到这个函数上，使这个函无论在哪被调用时，都能够访问到词法作用域里的变量，闭包说白了就是把函数的词法作用域里的变量绑定到这个函数上，很像 `bind()` 方法，这种特性带给函数两个能力，
+
+## Reflect
+
+1. 将 Object 对象一些内部的方法，放到 Reflect对象上。比如：object.defineProperty
+ - 说明：现阶段这些方法存在于object和Reflect对象上，未来只存在于Reflect对象上。
+ - 意义：也就是说，从Reflect 对象上可以拿到语言内部的方法。
+2. 操作对象时出现报错返回false
+ - 说明：比如，`Object.defineProperty(obj, name, desc)` 在无法定义属性时，会抛出一个错误，而 `Reflect.defineProperty(obj, name, desc)` 则会返回 `false`。

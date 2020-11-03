@@ -411,6 +411,77 @@ function create (fn, ...arg) {
 }
 ```
 
+## 手写 Promise
+
+Promise 的使用方法：
+
+```js
+function myAsyncFunction(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.onload = () => resolve(xhr.responseText);
+    xhr.onerror = () => reject(xhr.statusText);
+    xhr.send();
+  });
+};
+
+myAsyncFunction('/api')
+  .then((data) => {
+    console.log("responseText", data);
+  })
+  .catch((error) => {
+    console.log("statusText", error);
+  })
+```
+
+Promise 实现：
+
+```js
+class myPromise {
+  constructor(initfn) {
+    this.status = 'pending';
+    this.onFulfilledCallback = [];
+    this.onRejectedCallback = [];
+
+    setTimeout(() => {
+      const resolve = (data) => {
+        this.status = 'fulfilled'
+        console.log("this.onFulfilledCallback", this.onFulfilledCallback);
+        this.onFulfilledCallback.forEach(cb => {
+          cb(data)
+        })
+      }
+
+      const reject = (error) => {
+        this.status = 'rejected'
+        this.onRejectedCallback.forEach(cb => {
+          cb(error)
+        })
+      }
+
+      try {
+        initfn(resolve, reject);
+      } catch(error) {
+        this.status = 'rejected'
+        this.onRejectedCallback.forEach(cb => {
+          cb(error)
+        })
+      }
+    }, 0)
+  }
+  then(onfulfilled, onrejected) {
+    typeof onfulfilled === 'function' && this.onFulfilledCallback.push(onfulfilled);
+    typeof onrejected === 'function' && this.onRejectedCallback.push(onrejected);
+    return this;
+  }
+  catch(onrejected) {
+    typeof onrejected === 'function' && this.onRejectedCallback.push(onrejected);
+    return this;
+  }
+}
+```
+
 
 ## 前端mvvm（react、vue，）框架基本都是由以下几部分组成
 
@@ -422,3 +493,85 @@ function create (fn, ...arg) {
 - 模板语法的选择（jsx or template）实现模板解析
 
 综上，再复杂的框架都是由各个小的技术点累计而成的，那么将以上每一个技术点都能钻研透彻，并能够将其灵活的组合起来的那么你离完成一个框架就不远了。
+
+
+## 命令式和声明式开发的区别
+
+计算机系统是分层的，也就是下层做一些支持的工作，暴露接口给上层用。注意：语言的本质是一种接口。
+
+计算机的最下层是CPU指令，其本质就是用“变量定义+顺序执行+分支判断+循环”所表达的逻辑过程。
+
+计算机应用的最上层是实现人类社会的某种功能。所以所有计算机编码的过程，就是用逻辑表达现实的过程。层与层之间定义的借口，越接近现实的表达就叫越“声明式”（declarative），越接近计算机的执行过程就叫越“命令式”（imperative）。注意这不是绝对的概念，而是相对的概念。
+
+当接口越是在表达“要什么”，就是越声明式；越是在表达“要怎样”，就是越命令式。
+
+SQL就是在表达要什么（数据），而不是表达怎么弄出我要的数据，所以它就很“声明式”。C++就比C更声明式，因为面向对象本身就是一种声明式的体现。HTML也很声明式，它只描述我要一张什么样的表，并不表达怎么弄出一张表，而DOM操作就是命令式的。
+
+简单的说，接口的表述方式越接近人类语言——词汇的串行连接（一个词汇实际上是一个概念）——就越“声明式”；越接近计算机语言——“顺序+分支+循环”的操作流程——就越“命令式”。
+
+越是声明式，意味着下层要做更多的东西，或者说能力越强。也意味着效率的损失。越是命令式，意味着上层对下层有更多的操作空间，可以按照自己特定的需求要求下层按照某种方式来处理。实际上，这对概念应该叫做“声明式接口”和“命令式接口”。可能是因为它大部分时候是在谈论“语言”这种接口方式时才会用到，所以会叫做“声明式编程”和“命令式编程”。当然，你也可以把它当成一种编程思想，也就是说，在构建自己的代码时，为了结构的清晰可读，把代码分层，层之间的接口尽量声明式。这样你的代码自然在一层上主要描述从人的角度需要什么；另一层上用计算机逻辑实现人的需要。另外，这组概念总让人迷惑，可能一个原因是翻译问题。如果翻译成”说明式“和”指令式“应该容易理解的多。
+
+- 命令式编程：命令“机器”如何去做事情(how)，这样不管你想要的是什么(what)，它都会按照你的命令实现。
+- 声明式编程：告诉“机器”你想要的是什么(what)，让机器想出如何去做(how)。
+
+## HOC、Render props、Hooks
+
+HOC（高阶组件）高阶组件是参数为组件，返回值为新组件的函数。
+
+- HOC 优点
+  - 不会影响内层组件的状态, 降低了耦合度
+  - HOC 可以做到很轻松地外部协议化注入功能到一个基础 Component 中，所以可以用来做插件。
+  - HoC 的方式可以天然地进行组件的分层以及组合，并且这种分层基本都可以描述为状态注入以及 props mapping 的过程。
+- HOC 的缺点
+  - 固定的 props 可能会被覆盖
+  - 调试不方便，当多个HOC嵌套时，props 究竟是来自于哪里，如果有问题、问题又出自于哪里。
+
+
+Render props 将一个组件内的 state 作为 props 传递给调用者, 调用者可以动态的决定如何渲染.
+
+1. 接收一个外部传递进来的 props 属性
+2. 将内部的 state 作为参数传递给调用组件的 props 属性方法.
+
+```js
+class Mouse extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { x: 0, y: 0 };
+  }
+  render() {
+    return (
+      <div style={{ height: '100%' }}>
+        {this.props.render(this.state)}
+      </div>
+    );
+  }
+}
+
+// 调用方式:
+<Mouse render={mouse => (
+  <p>鼠标的位置是 {mouse.x}，{mouse.y}</p>
+)}/>
+```
+
+- 缺点
+  - 无法在 return 语句外访问数据
+  - 很容易导致嵌套地狱
+
+Hook
+
+```js
+const { x, y } = useMouse();
+const { x: pageX, y: pageY } = usePage();
+
+useEffect(() => {
+
+}, [pageX, pageY])
+```
+
+- hook 可以重命名参数
+  - 如果 2 个 hook 暴露的参数一样,我们可以简单地进行重命名.
+- hook 会清晰地标注来源
+  - 从上面的例子可以简单地看到, x 和 y 来源于 useMouse. 下面的 x, y 来源于 usePage
+- hook 可以让你在 return 之外使用数据
+- hook 不会嵌套
+- 简单易懂, 对比 hoc 和 render props 两种方式, 它非常直观, 也更容易理解

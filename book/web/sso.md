@@ -94,7 +94,7 @@ Cookie 存储在客户端中，而Session存储在服务器上，相对来说 Se
 
 如果已经将登录单独抽取成系统出来，我们还能这样玩。现在我们有两个系统，分别是www.ibixue.com和www.gookang.com，一个 www.ruanally.com
 
-首先，用户想要访问系统A www.ibixue.com受限的资源(比如说购物车功能，购物车功能需要登录后才能访问)，系统A www.ibixue.com发现用户并没有登录，于是重定向到sso认证中心，并将自己的地址作为参数。请求的地址如下：
+首先，用户想要访问系统A www.ibixue.com 受限的资源(比如说购物车功能，购物车功能需要登录后才能访问)，系统A www.ibixue.com 发现用户并没有登录，于是重定向到sso认证中心，并将自己的地址作为参数。请求的地址如下：
 
 ```
 www.ruanally.com?service=www.ibixue.com
@@ -110,13 +110,13 @@ www.ibixue.com?token=xxxxxxx
 
 接着，系统A去sso认证中心验证这个Token是否正确，如果正确，则系统A和用户建立局部会话（创建Session）。到此，系统A和用户已经是登录状态了。
 
-此时，用户想要访问系统B  www.gookang.com受限的资源(比如说订单功能，订单功能需要登录后才能访问)，系统B www.gookang.com发现用户并没有登录，于是重定向到sso认证中心，并将自己的地址作为参数。请求的地址如下：
+此时，用户想要访问系统B  www.gookang.com 受限的资源(比如说订单功能，订单功能需要登录后才能访问)，系统B www.gookang.com 发现用户并没有登录，于是重定向到sso认证中心，并将自己的地址作为参数。请求的地址如下：
 
 ```
 www.ruanally.com?service=www.gookang.com
 ```
 
-注意，因为之前用户与认证中心www.ruanally.com已经建立了全局会话（当时已经把Cookie保存到浏览器上了），所以这次系统B重定向到认证中心www.ruanally.com是可以带上Cookie的。
+注意，因为之前用户与认证中心 www.ruanally.com 已经建立了全局会话（当时已经把Cookie保存到浏览器上了），所以这次系统B重定向到认证中心 www.ruanally.com 是可以带上Cookie的。
 
 认证中心根据带过来的Cookie发现已经与用户建立了全局会话了，认证中心重定向回系统B，并把Token携带过去给系统B，重定向的地址如下：
 
