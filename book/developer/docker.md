@@ -135,6 +135,20 @@ RUN \
   make install
 ```
 
+## Dokcer network
+
+```bash
+docker network create -d ipvlan \
+--subnet=192.168.14.0/22 \
+--gateway=192.168.12.1 \
+-o "ipvlan_mode"="l2" \
+-o "parent"="eth0" br0
+```
+
+
+
+
+
 ## 批量删除容器
 
 删除 docker container 和 docker image 的关键都是找到准确的 ID。所以，如果能批量提供 ID 号给删除命令，就能实现批量删除了。

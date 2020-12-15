@@ -70,6 +70,9 @@ which 命令的原理：在PATH变量指定的路径中，搜索某个系统命�
 
 ```bash
 which npm
+
+# 查看当前安装的版本及位置
+ls -l `which node`
 ```
 
 ## env
@@ -322,3 +325,64 @@ tree -P .DS_Store/ -a # / 表示不显示
 - \-t 用文件和目录的更改时间排序。
 - \-u 列出文件或目录的拥有者名称，没有对应的名称时，则显示用户识别码。
 - \-x 将范围局限在现行的文件系统中，若指定目录下的某些子目录，其存放于另一个文件系统上，则将该子目录予以排除在寻找范围外。
+
+## compgen
+
+查看可用命令列表
+
+```bash
+compgen -c
+```
+
+## poweroff
+
+强制关机
+
+## history
+
+```bash
+history
+
+# 执行一条历史命令
+!112
+```
+
+## fdisk
+
+```bash
+# 显示磁盘分区
+fdisk -l
+```
+
+## tail
+
+```
+tail [参数] [文件]
+
+参数：
+
+-f 循环读取
+-q 不显示处理信息
+-v 显示详细的处理信息
+-c<数目> 显示的字节数
+-n<行数> 显示文件的尾部 n 行内容
+--pid=PID 与-f合用,表示在进程ID,PID死掉之后结束
+-q, --quiet, --silent 从不输出给出文件名的首部
+-s, --sleep-interval=S 与-f合用,表示在每次反复的间隔休眠S秒
+```
+
+```
+tail -100 | grep error
+```
+
+## cat /etc/shells
+
+```sh
+# 查看系统有几个shell
+cat /etc/shells
+
+# 使用下面命令设置默认shell
+chsh -s /bin/zsh
+```
+
+## 自定义shell

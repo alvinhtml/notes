@@ -218,3 +218,94 @@ git fetch origin pull/1/head:pr-1
 [remote] 是远端仓库名字。通过 git remote -v 可列出所有添加了的远端仓库。
 
 [local branch] 是 PR 的代码拉取下来后，放到的本地分支的名字。
+
+## Git 打补丁
+
+Git 提供了两种补丁方案，一是用 git diff 生成的 UNIX 标准补丁 .diff 文件，二是 git format-patch 生成的 Git 专用 .patch 文件。
+
+.diff文件只是记录文件改变的内容，不带有commit记录信息,多个commit可以合并成一个diff文件。
+
+.patch文件带有记录文件改变的内容，也带有commit记录信息,每个commit对应一个patch文件。
+
+使用 git 的 format-patch 和 am 命令进行生成 patch 和打 patch
+
+1. 对于 git 这种以 project 为单位的修改，尤其是涉及到多个文件夹下的多个文件的改动时，非常方便，能够记录所有的改动（添加，修改，删除文件等）
+2. 可以保存commit信息。
+3. 能够灵活的获取 patch。可以获取任意两个 commit 之间的 patch 集。
+
+### git format-patch
+
+```bash
+# 生成最近的1次commit的patch
+git format-patch HEAD^
+
+# 生成最近的4次commit的patch
+git format-patch HEAD^^^^
+
+# n指从sha1 id对应的commit开始算起n个提交
+git format-patch 【commit sha1 id】-n
+
+# 生成两个commit间的修改的patch（包含两个commit. <r1>和<r2>都是具体的commit号)
+git format-patch <r1>..<r2>
+
+# 生成单个commit的patch
+git format-patch -1 <r1>
+
+# 生成某commit以来的修改patch（不包含该commit）
+git format-patch <r1>
+
+# 生成从根到r1提交的所有patch
+git format-patch --root <r1>　　　　　　　　　　　　   
+```
+
+### git diff
+
+```bash
+# git diff  【commit sha1 id】 【commit sha1 id】 >  【diff文件名】
+
+git diff  2a2fb4539925bfa4a141fe492d9828d030f7c8a8  89aebfcc73bdac8054be1a242598610d8ed5f3c8 > patch.diff
+```
+
+### 应用 patch 和 diff
+
+```bash
+# 查看patch的情况
+git apply --stat 0001-limit-log-function.patch
+
+# 检查 patch/diff 是否能正常打入
+git apply --check path/to/xxx.patch
+git apply --check path/to/xxx.diff
+
+# 打入 patch/diff
+git apply path/to/xxx.patch
+git apply path/to/xxx.diff
+
+# 添加 -s 或者 --signoff，还可以把自己的名字添加为 signed off by 信息，作用是注明打 patch 的人是谁，因为有时打 patch 的人并不是 patch 的作者
+git am --signoff 0001-limit-log-function.patch
+
+# 将路径 ~/patch-set/*.patch 按照先后顺序打上
+git am ~/patch-set/*.patch
+
+# 当 git am 失败时，用以将已经在 am 过程中打上的 patch 废弃掉, 返回没有打 patch 的状态
+git am --abort
+
+#当 git am 失败，解决完冲突后，这条命令会接着打 patch, git am --resolved 和 git am --continue 是一样的                                                      
+git am --resolved
+```
+
+如果打Patch的过程中发生了冲突（conflicts），怎么办？
+
+方案一（个人推荐）：
+
+1. 根据 git am 失败的信息，找到发生冲突的具体 patch 文件，然后用命令 `git apply --reject <patch_name>`，强行打这个 patch，发生冲突的部分会保存为 `.rej`，未发生冲突的部分会成功打上patch
+2. 根据 `.rej` 文件，通过编辑该 patch 文件的方式解决冲突。
+3. 废弃上一条 am 命令已经打了的 patch：`git am --abort`
+4. 重新打 patch：`git am ~/patch-set/*.patchpatch`
+
+方案二：
+1. 根据 git am 失败的信息，找到发生冲突的具体 patch 文件，然后用命令 `git apply --reject <patch_name>`，强行打这个 patch，发生冲突的部分会保存为 `.rej`，未发生冲突的部分会成功打上patch
+2. 根据 `.rej` 文件，通过编辑发生冲突的 code 文件的方式解决冲突。
+3. 将该 patch 涉及到的所有文件（不仅仅是发生冲突的文件）通过命令 `git add <file_name>` 添加到工作区中
+4. 告诉 git冲 突已经解决，继续打 patch: `git am --resolved`
+
+分析：方案一和方案二主要区别是解决冲突的方法不一样。方案一是通过编辑 patch 文件的方式解决冲突，方案二十通过编辑冲突 code 文件的方式解决冲突。这两种方案区别比较大：经过实验，核心区别在于，方案二无法验证冲突有没有切实的解决。即使你在方案二的第二步乱改一通，也能“打完”发生冲突的 patch（并没有检测修改后的 code 文件跟 patch 期望的是否相同）。因此，如果采用方案二，那么再解决 code 文件冲突后，需要人工去确认修改的正确性。
