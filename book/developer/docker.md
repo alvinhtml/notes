@@ -205,3 +205,9 @@ docker rmi $(docker image ls -a -q)
 ```
 
 如果只想批量删除一部分容器或者镜像呢？这个需求也很容易实现，想象如下的简单场景：将要删除的容器名写到一个文档，然后根据提供的名字，再结合 grep 、awk 等命令，就可以轻松地获取准确的 ID
+
+## Docker 部署 Mysql 示例
+
+```bash
+sudo docker run --name xbackup-mysql -p 3306:3306 -v /data/xbackup:/xbackup -e MYSQL\_ROOT\_PASSWORD=123456 -d mysql
+```

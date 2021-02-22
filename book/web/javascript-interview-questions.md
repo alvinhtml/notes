@@ -413,6 +413,19 @@ function create (fn, ...arg) {
 
 ## 手写 Promise
 
+### Promise基本特征
+
+1. promise 有三个状态：pending, fulfilled, rejected
+2. new promise 时， 需要传递一个 `executor()` 执行器函数，执行器函数立即执行
+3. executor 接受两个参数，分别是 resolve 和 reject
+4. promise 的默认状态是 pending，promise 只能从 pending 到 rejected 或者 fulfilled，状态一旦确认，就不会再改变
+5. promise 必须有一个 then 方法，then 接收两个参数，成功的回调 onFulfilled, 和失败的回调 onRejected
+6. then 方法的执行结果也会返回一个 Promise 对象。因此我们可以进行then的链式执行，这也是解决回调地狱的主要方式。
+7. 如果调用 then 时，promise 已经成功，则执行 onFulfilled，参数是 promise 的 value
+8. 如果调用 then 时，promise 已经失败，那么执行 onRejected, 参数是 promise 的 reason
+9. 如果 then 中抛出了异常，那么就会把这个异常作为参数，传递给下一个 then 的失败的回调 onRejected
+
+
 Promise 的使用方法：
 
 ```js
@@ -429,8 +442,7 @@ function myAsyncFunction(url) {
 myAsyncFunction('/api')
   .then((data) => {
     console.log("responseText", data);
-  })
-  .catch((error) => {
+  }, (error) => {
     console.log("statusText", error);
   })
 ```
@@ -441,43 +453,65 @@ Promise 实现：
 class myPromise {
   constructor(initfn) {
     this.status = 'pending';
-    this.onFulfilledCallback = [];
-    this.onRejectedCallback = [];
+    this.value = undefined;
+    this.error = undefined;
+    this.onResolvedCallbacks = [];
+    this.onRejectedCallbacks= [];
 
-    setTimeout(() => {
-      const resolve = (data) => {
-        this.status = 'fulfilled'
-        console.log("this.onFulfilledCallback", this.onFulfilledCallback);
-        this.onFulfilledCallback.forEach(cb => {
-          cb(data)
-        })
-      }
+    const resolve = (value) => {
+      this.status = 'fulfilled';
+      this.value = value;
+      this.onResolvedCallbacks.forEach(cb => cb(value));
+    }
 
-      const reject = (error) => {
-        this.status = 'rejected'
-        this.onRejectedCallback.forEach(cb => {
-          cb(error)
-        })
-      }
+    const reject = (error) => {
+      this.status = 'rejected'
+      this.error = error;
+      this.onRejectedCallbacks.forEach(cb => cb(error));
+    }
 
-      try {
-        initfn(resolve, reject);
-      } catch(error) {
-        this.status = 'rejected'
-        this.onRejectedCallback.forEach(cb => {
-          cb(error)
-        })
-      }
-    }, 0)
+    try {
+      initfn(resolve, reject);
+    } catch(error) {
+      this.status = 'rejected'
+      this.error = error;
+      this.onRejectedCallbacks.forEach(cb => cb(error));
+    }
   }
-  then(onfulfilled, onrejected) {
-    typeof onfulfilled === 'function' && this.onFulfilledCallback.push(onfulfilled);
-    typeof onrejected === 'function' && this.onRejectedCallback.push(onrejected);
-    return this;
-  }
-  catch(onrejected) {
-    typeof onrejected === 'function' && this.onRejectedCallback.push(onrejected);
-    return this;
+
+  then(onFulfilled, onRejected) {
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : v => v;
+    onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err };
+
+    let promise2 = new myPromise((resolved, rejected) => {
+      if (this.status === 'pending') {
+        this.onResolvedCallbacks.push((value) => {
+          try {
+            resolved(onFulfilled(this.value));
+          } catch (error) {
+            this.error = error;
+            rejected(this.error);
+          }
+        });
+        this.onRejectedCallbacks.push((error) => {
+          rejected(onRejected(this.error));
+        });
+      }
+
+      if (this.status === 'fulfilled') {
+        try {
+          resolved(onFulfilled(this.value));
+        } catch (error) {
+          this.error = error;
+          rejected(this.error);
+        }
+      }
+      if (this.status === 'rejected') {
+        rejected(onRejected(this.error));
+      }
+    });
+
+    return promise2;
   }
 }
 ```

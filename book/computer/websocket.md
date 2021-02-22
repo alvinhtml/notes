@@ -154,7 +154,33 @@ ws.onmessage = function(evt) {
 ws.onclose = function(evt) {
   console.log("Connection closed.");
 };
+
 ```
+
+```html
+<script>
+  let api = 'ws://localhost:8001'
+  const Socket = new WebSocket(api)
+
+  // 连接建立时触发
+  Socket.onopen = function () {
+    if (Socket.readyState === 0) {
+      console.log('连接还未建立')
+    }
+
+    if (Socket.readyState === 1) {
+      Socket.send('HELLO')
+    }
+  }
+
+  Socket.onclose = function () {
+    console.log('连接已关闭')
+  }
+</script>
+```
+
+
+
 
 ## WebSocket API
 
