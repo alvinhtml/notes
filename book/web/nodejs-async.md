@@ -26,7 +26,7 @@ NodeJS的异步机制是基于事件的，所有的I/O、网络通信、数据�
 
 NodeJS中所有的逻辑都是事件的回调函数，所以NodeJS始终在事件循环中，程序入口就是事件循环第一个事件的回调函数。事件的回调函数中可能会发出I/O请求或直接发射（ emit）事件，执行完毕后返回事件循环。事件循环会检查事件队列中有没有未处理的事件，直到程序结束。NodeJS的事件循环对开发者不可见，由libev库实现，libev不断检查是否有活动的、可供检测的事件监听器，直到检查不到时才退出事件循环，程序结束。
 
-![the NodeJS system](../assets/NodeJS-event-loop.png)
+![the NodeJS system](../assets/nodejs-event-loop.png)
 
 
 libuv 是一个高性能事件驱动的程序库，封装了 Windows 和 Unix 平台一些底层特性，为开发者提供了统一的 API.
