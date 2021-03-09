@@ -33,6 +33,37 @@ docker tag springcloud/eureka:latest 192.168.14.3:443/library/eureka:latest
 docker push 192.168.14.3:443/library/eureka
 ```
 
+## docker save
+
+将指定镜像保存成 tar 归档文件。语法:
+
+```
+docker save [OPTIONS] IMAGE [IMAGE...]
+```
+
+OPTIONS 说明：
+
+- -o :输出到的文件。
+
+```bash
+docker save -o my_ubuntu_v3.tar runoob/ubuntu:v3
+# or
+docker save docker.nicescale.com:443/csphere/golang-1.14>./csphere-golang-1.14.tar
+```
+## docker load
+
+```
+
+```
+
+## docker import & docker export
+
+export 和 import 导出的是一个容器的快照, 不是镜像本身, 也就是说没有 layer。dockerfile 里的 workdir, entrypoint 之类的所有东西都会丢失，commit 过的话也会丢失。
+
+- docker save 保存的是镜像（image），docker export 保存的是容器（container）；
+- docker load 用来载入镜像包，docker import 用来载入容器包，但两者都会恢复为镜像；
+- docker load 不能对载入的镜像重命名，而 docker import 可以为镜像指定新名称。
+
 
 ## docker ps 列出容器
 

@@ -36,6 +36,7 @@
   * [Git](developer/git.md)
   * [Gitbook](developer/gitbook.md)
   * [GraphQL](developer/GraphQL.md)
+  * [Go 语言](developer/golang.md)
   * [Kubernetes](developer/kubernetes.md)
   * [Linux常用命令](developer/linux-command.md)
   * [NPM 学习笔记](developer/npm.md)
