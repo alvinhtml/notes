@@ -37,6 +37,7 @@
   * [Gitbook](developer/gitbook.md)
   * [GraphQL](developer/GraphQL.md)
   * [Go 语言](developer/golang.md)
+  * [journalctl 查看日志](developer/journalctl.md)
   * [Kubernetes](developer/kubernetes.md)
   * [Linux常用命令](developer/linux-command.md)
   * [NPM 学习笔记](developer/npm.md)
