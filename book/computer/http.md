@@ -126,11 +126,11 @@ HTTP协议（HyperText Transfer Protocol，超文本传输协议）是用于从�
   - Authorization
     - Authorization请求报头域主要用于证明客户端有权查看某个资源。当浏览器访问一个页面时，如果收到服务器的响应代码为401（未授权），可以发送一个包含Authorization请求报头域的请求，要求服务器对其进行验证。
   - Host（发送请求时，该报头域是必需的）
-    - Host请求报头域主要用于指定被请求资源的Internet主机和端口号，如 Host：www.alvinhtml.cn:80
+    - Host请求报头域主要用于指定被请求资源的Internet主机和端口号，如 `Host：www.alvinhtml.cn:80`
   - User-Agent
     - 操作系统的名称和版本，浏览器的名称和版本。
-  - Referer:http:\/\/www.google.com 从哪个链接跳过来的。
-  - [Sec-Fetch-Dest](https://www.w3.org/TR/fetch-metadata/#sec-fetch-dest-header) Chrome 自定头，表示请求的发起方式，如果该请求是作为页面直接打开的，比如在地址栏上回车，这个值会是document，如果是用<img>标签发起的图片请求，这个值会是image，如果用XHR/fetch发起的，这个值会是 empty，等等。
+  - Referer: `http://www.google.com` 从哪个链接跳过来的。
+  - [Sec-Fetch-Dest](https://www.w3.org/TR/fetch-metadata/#sec-fetch-dest-header) Chrome 自定头，表示请求的发起方式，如果该请求是作为页面直接打开的，比如在地址栏上回车，这个值会是document，如果是用 `<img>` 标签发起的图片请求，这个值会是image，如果用XHR/fetch发起的，这个值会是 empty，等等。
 
 ### 响应头
 

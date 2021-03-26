@@ -21,7 +21,7 @@ CircleCI 是一个持续集成/持续部署的服务，开源项目可以免费�
 他可以绑定 GitHub/Bitbucket，只要你的代码有变更，就会自动抓取，根据你的配置，提供运行环境，执行测试、构建和部署。
 
 ## CircleCI 的工作流程
-![CircleCI](../assets/circleci workflow.webp "CircleCI")
+![CircleCI](../assets/circleci-workflow.webp "CircleCI")
 
 ## CircleCI 配置
 
