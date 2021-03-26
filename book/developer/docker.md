@@ -117,9 +117,11 @@ OPTIONS说明：
 
 
 ### 运行一个容器
+
+```
 docker run --name=node8 -v $PWD:/app -p 7070:7070 -w /app -it node:8 bash
 docker run --name=rancher-node8 -w /app -v $PWD:/app -p 8000:8000 -it bash
-
+```
 
 ### 启动一个 Docker 容器
 

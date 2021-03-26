@@ -360,12 +360,21 @@ cat b1.sql b2.sql b3.sql > b_all.sql
 cat *.sql > merge.sql
 ```
 
+## ln
+
+```
+ln [参数][源文件或目录][目标文件或目录]
+```
+
+```bash
+ln -s /a/err.log /b/err.log
+```
 
 ## Linux 查看内存使用情况
 
-### top: 用于实时显示 process 的动态
-### free: 查看系统内存使用情况
-### cat /proc/meminfo: 查看RAM使用情况最简单的方法是通过/proc/meminfo
+- top: 用于实时显示 process 的动态
+- free: 查看系统内存使用情况
+- cat /proc/meminfo: 查看RAM使用情况最简单的方法是通过 /proc/meminfo
 
 这个动态更新的虚拟文件实际上是许多其他内存相关工具(如：free / ps / top)等的组合显示。
 
@@ -467,3 +476,12 @@ chsh -s /bin/zsh
 ```
 
 ## 自定义shell
+
+## stat
+Linux stat 命令用于显示 inode 内容。
+
+语法:
+
+```
+stat [文件或目录]
+```
