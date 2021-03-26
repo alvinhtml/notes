@@ -18,3 +18,5 @@ _book
 dist/assets
 .env
 **/.DS_Store
+
+/dist
