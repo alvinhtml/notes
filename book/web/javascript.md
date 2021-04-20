@@ -168,3 +168,38 @@ JavaScript是单线程的，所谓单线程，是指在JS引擎中负责解释�
  - 意义：也就是说，从Reflect 对象上可以拿到语言内部的方法。
 2. 操作对象时出现报错返回false
  - 说明：比如，`Object.defineProperty(obj, name, desc)` 在无法定义属性时，会抛出一个错误，而 `Reflect.defineProperty(obj, name, desc)` 则会返回 `false`。
+
+## 严格模式与非严格模式
+
+对于 JavaScript 严格模式与非严格模式的区别，请查看权威文档 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode): 严格模式。
+
+严格模式是采用具有限制性JavaScript变体的一种方式，从而使代码显示地 脱离“马虎模式/稀松模式/懒散模式“（sloppy）模式。
+
+- 首先，严格模式通过抛出错误来消除一些原有的静默错误。
+  - 严格模式下，为不存在的全局变量赋值会抛出错误，在正常模式下这种操作不会产生任何效果
+  - 严格模式下，给 NaN 赋值会抛出一个异常在正常模式下，在正常模式下给 NaN 赋值不会产生任何作用，开发者也不会受到任何错误反馈
+  - 严格模式下，试图删除不可删除的属性时会抛出异常，在正常模式下这种操作不会产生任何效果
+  - 严格模式下要求一个对象内的所有属性名在对象内必须唯一，正常模式下重名属性是允许的，只有最后一个属性起作用
+  - 严格模式要求函数的参数名唯一，在正常模式下，最后一个重名参数名会掩盖之前的重名参数
+- 其次，严格模式修复了一些导致JavaScript引擎难以执行优化的缺陷：有时候，相同的代码，严格模式可以比非严格模式下运行的更快。
+- 第三，严格模式禁用了在ECMAScript的未来版本中可能会定义的一些语法。
+  - 在严格模式中一部分字符变成了保留的关键字。这些字符包括implements, interface, let, package, private, protected, public, static和yield。在严格模式下，你不能再用这些名字作为变量名或者形参名。
+  - 严格模式禁止了不在脚本或者函数层面上的函数声明
+
+### 调用严格模式
+
+```js
+// 整个脚本都开启严格模式的语法
+"use strict";
+var v = "Hi!  I'm a strict mode script!";
+
+// 为函数开启严格模式
+function strict() {
+  'use strict';
+
+  function nested() {
+    return "And so am I!";
+  }
+  return "Hi!  I'm a strict mode function!  " + nested();
+}
+```

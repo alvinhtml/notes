@@ -48,12 +48,14 @@ OPTIONS 说明：
 ```bash
 docker save -o my_ubuntu_v3.tar runoob/ubuntu:v3
 # or
-docker save docker.nicescale.com:443/csphere/golang-1.14>./csphere-golang-1.14.tar
+docker save docker.nicescale.com:443/csphere/golang-1.14 > ./csphere-golang-1.14.tar
 ```
 ## docker load
 
-```
-
+```bash
+docker load -i my_ubuntu_v3.tar
+# 或以下代码，同等效应
+docker load < my_ubuntu_v3.tar
 ```
 
 ## docker import & docker export
@@ -167,6 +169,22 @@ RUN \
   make &&\
   make install
 ```
+
+- FROM 定制的镜像都是基于 FROM 的镜像，这里的 nginx 就是定制需要的基础镜像。后续的操作都是基于 nginx。
+- WORKDIR 指定工作目录。用 WORKDIR 指定的工作目录，会在构建镜像的每一层中都存在
+- RUN 用于执行后面跟着的命令行命令。有以下俩种格式：shell 格式、exec 格式。
+- COPY 复制指令，从上下文目录中复制文件或者目录到容器里指定路径：`COPY hom?.txt /mydir/`
+- ADD 指令和 COPY 的使用格式一致, 源文件压缩格式为 gzip, bzip2 以及 xz 的情况下，会自动复制并解压。
+- CMD 类似于 RUN 指令，用于运行程序，但二者运行的时间点不同:
+  - CMD 在docker run 时运行。
+  - RUN 是在 docker build。
+- ENV 设置环境变量，在后续的指令中使用。
+
+
+```bsh
+docker build -t nginx:v3 .
+```
+
 
 ## Dokcer network
 

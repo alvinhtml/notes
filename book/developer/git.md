@@ -121,6 +121,7 @@ git stash apply stash@{2}
 
 # 使用储藏，同时立刻将其从堆栈中移走
 git stash pop
+git stash pop stash@{1}
 
 # 使用储藏的修改，在进行了一些其他的修改后，又要取消之前所应用储藏的修改
 git stash show -p stash@{0} | git apply -R
@@ -131,6 +132,11 @@ git stash show -p | git apply -R
 # 创建一个新的分支，检出你储藏工作时的所处的提交，重新应用你的工作，如果成功，将会丢弃储藏
 git stash branch [branchname]
 
+# 删除一个存储的进度。如果不指定stash_id，则默认删除最新的存储进度。
+git stash drop stash@{1}
+
+# 删除所有存储的进度。
+git stash clear
 ```
 
 
