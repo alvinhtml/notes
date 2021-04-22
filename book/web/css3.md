@@ -440,4 +440,65 @@ keyframe-selectors: [ 'from' | 'to' | PERCENTAGE ] [ ',' [ 'from' | 'to' | PERCE
          left: 0px;
      }
  }
- ```
+```
+
+## will-change
+
+CSS 属性 [will-change](https://developer.mozilla.org/zh-CN/docs/Web/CSS/will-change) 为web开发者提供了一种告知浏览器该元素会有哪些变化的方法，这样浏览器可以在元素属性真正发生变化之前提前做好对应的优化准备工作。 这种优化可以将一部分复杂的计算工作提前准备好，使页面的反应更为快速灵敏。
+
+```
+will-change: auto
+will-change: scroll-position
+will-change: contents
+will-change: transform        // Example of <custom-ident>
+will-change: opacity          // Example of <custom-ident>
+will-change: left, top        // Example of two <animateable-feature>
+
+will-change: unset
+will-change: initial
+will-change: inherit
+```
+### 取值
+
+- auto
+  - 表示没有特别指定哪些属性会变化，浏览器需要自己去猜，然后使用浏览器经常使用的一些常规方法优化。
+- <animateable-feature> 可以是以下值：
+  - scroll-position 表示开发者希望在不久后改变滚动条的位置或者使之产生动画。
+  - contents 表示开发者希望在不久后改变元素内容中的某些东西，或者使它们产生动画。
+  - <custom-ident> 表示开发者希望在不久后改变指定的属性名或者使之产生动画。如果属性名是简写，则代表所有与之对应的简写或者全写的属性。
+
+### 示例
+
+```css
+.sidebar {
+  will-change: transform;
+}
+```
+
+以上示例在样式表中直接添加了 will-change 属性，会导致浏览器将对应的优化工作一直保存在内存中，这其实是不必要的，前面我们已经看过为什么应该避免这样的做法。下面是另一个展示如何使用脚本正确地应用 will-change 属性的示例，在大部分的场景中，你都应该这样做。
+
+```js
+var el = document.getElementById('element');
+
+// 当鼠标移动到该元素上时给该元素设置 will-change 属性
+el.addEventListener('mouseenter', hintBrowser);
+// 当 CSS 动画结束后清除 will-change 属性
+el.addEventListener('animationEnd', removeHint);
+
+function hintBrowser() {
+  // 填写上那些你知道的，会在 CSS 动画中发生改变的 CSS 属性名们
+  this.style.willChange = 'transform, opacity';
+}
+
+function removeHint() {
+  this.style.willChange = 'auto';
+}
+```
+
+但是，如果某个应用在按下键盘的时候会翻页，比如相册或者幻灯片一类的，它的页面很大很复杂，此时在样式表中写上 will-change 是合适的。这会使浏览器提前准备好过渡动画，当键盘按下的时候就能立即看到灵活轻快的动画。
+
+```css
+.slide {
+  will-change: transform;
+}
+```

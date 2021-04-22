@@ -29,7 +29,7 @@ CORS需要浏览器和后端同时支持。IE 8 和 9 需要通过XDonmainReques
 浏览器会自动进行 CORS 通信，实现 CORS 通信的关键是后端，只要后端实现了 CORS ，就实现了跨域。
 服务端设置 Access-C 动态容量 —Allow-Origin 就可以开启CORS。此属性表示哪些域名可以访问资源。
 
-### 什么情况下需要 CORS ？节
+### 什么情况下需要 CORS ？
 
 跨域资源共享标准（ cross-origin sharing standard ）允许在下列场景中使用跨域 HTTP 请求：
 
