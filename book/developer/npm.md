@@ -25,7 +25,6 @@ npm list -g
 npm list -g --depth 0
 
 # 如果不添加--depth 0 会将更详细的列表展示出来。
-
 ```
 
 ## npm init

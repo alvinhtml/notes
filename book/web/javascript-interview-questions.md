@@ -1,4 +1,4 @@
-# JavaScript
+# JavaScript 前端面试题
 
 ## 常见的浏览器内核有哪些 ？
 
@@ -6,20 +6,6 @@ Trident 内核：IE, 360，搜狗浏览器 MaxThon、TT、The World,等。[又�
 Gecko 内核：火狐，FF，MozillaSuite / SeaMonkey 等
 Presto 内核：Opera7 及以上。[Opera 内核原为：Presto，现为：Blink]
 Webkit 内核：Safari，Chrome 等。 [ Chrome 的：Blink（WebKit 的分支）]
-
-## mouseenter 和 mouseover 的区别
-
-不论鼠标指针穿过被选元素或其子元素，都会触发 mouseover 事件，对应 mouseout。
-只有在鼠标指针穿过被选元素时，才会触发 mouseenter 事件，对应 mouseleave。
-
-## js 字符串两边截取空白的 trim 的原型方法的实现
-
-```js
-// 删除左右两端的空格
-function trim(str){
- return str.replace(/(^\s*)|(\s*$)/g, "");
-}
-```
 
 ## 介绍一下你对浏览器内核的理解 ?
 
@@ -36,7 +22,6 @@ function trim(str){
 解析和执行 javascript 来实现网页的动态效果。
 
 最开始渲染引擎和 JS 引擎并没有区分的很明确，后来 JS 引擎越来越独立，内核就倾向于只指渲染引擎。
-
 
 ## 哪些常见操作会造成内存泄漏 ？
 
@@ -149,17 +134,32 @@ const fibonacci = (n) => {
 fibonacci(20) // 6765, [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765]
 ```
 
+
+## mouseenter 和 mouseover 的区别
+
+不论鼠标指针穿过被选元素或其子元素，都会触发 mouseover 事件，对应 mouseout。
+只有在鼠标指针穿过被选元素时，才会触发 mouseenter 事件，对应 mouseleave。
+
+## js 字符串两边截取空白的 trim 的原型方法的实现
+
+```js
+// 删除左右两端的空格
+function trim(str){
+ return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+```
+
 ## 下面的输出结果是？
 
 ```js
 var out = 25,
-   inner = {
-        out: 20,
-        func: function () {
-            var out = 30;
-            return this.out;
-        }
-    };
+inner = {
+    out: 20,
+    func: function () {
+        var out = 30;
+        return this.out;
+    }
+};
 console.log((inner.func, inner.func)());
 console.log(inner.func());
 console.log((inner.func)());
@@ -322,15 +322,8 @@ function getBytes(str){
     }
     return bytes;
 }
-alert(getBytes("你好,as"));
+alert(getBytes("你好, as"));
 ```
-
-
-## new 操作符具体干了什么呢 ?
-
-1. 创建一个空对象，并且 this 变量引用该对象，同时还继承了该函数的原型。
-1. 属性和方法被加入到 this 引用的对象中。
-1. 新创建的对象由 this 所引用，并且最后隐式的返回 this 。
 
 ## JSON 的了解 ？
 
@@ -388,6 +381,7 @@ var arrayElements = Array.from(elements); // 这是另一种转换 NodeList 到 
 ES5 只有两种声明变量的方法：var 和 function 。
 ES6 除了添加 let 和 const 命令。
 还有两种声明变量的方法：import 命令和 class 命令。
+
 
 ## 手写 new
 
@@ -609,3 +603,16 @@ useEffect(() => {
 - hook 可以让你在 return 之外使用数据
 - hook 不会嵌套
 - 简单易懂, 对比 hoc 和 render props 两种方式, 它非常直观, 也更容易理解
+
+## DomToJson
+
+```js
+function domToJson(node) {
+  return (node && node.tagName) ? {
+    tag: node.tagName,
+    childs: Array.from(node.childNodes).map(n => domToJson(n))
+  } : {tag: 'TEXT'}
+}
+
+console.log(domToJson(document.getElementById('mydom')));
+```

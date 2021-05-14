@@ -185,6 +185,13 @@ RUN \
 docker build -t nginx:v3 .
 ```
 
+### .dockerignore
+
+```
+node_modules
+```
+
+
 
 ## Dokcer network
 
