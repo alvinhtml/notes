@@ -60,6 +60,14 @@ $ npm set init-license 'MIT'
 npm info react
 ```
 
+## npm ls
+
+`npm ls` 命令可以查看本地包的版本。
+
+```bash
+npm ls jquery
+```
+
 ## npm search
 `npm search` 命令用于搜索npm仓库，它后面可以跟字符串，也可以跟正则表达式。
 ```bash

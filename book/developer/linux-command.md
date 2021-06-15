@@ -45,6 +45,35 @@
 [abc]：匹配已给出的任意字符（和匹配数字一样的）
 ```
 
+#### 通配符的用法
+
+1. 单独的 `*`
+
+这里指的是只有 `*` 出现的情况，默认为单独的一个，`*` 没有和其它字符联合起来（表示目录的 `/` 除外）时，这种情况通配的是该目录下的所有非隐藏内容，包括非隐藏的目录和非隐藏的文件。如：
+
+  - `ls *` 的时候，相当于ls当前目录下的所有内容;
+  - `ls a*` 因为星号表示一个或者多个字符，所以可以找到a开头的所有文件；
+  - `ls *a` 但是以a结尾的没有，因为有文件的后缀，应该为 ls *a.txt；
+  - `ls *a*` 表示中间段含有a的文件；
+  - `/a/*` 匹配所有在a路径下的文件, 不包括文件夹    
+  - `/a/*.x`   匹配所有在 a 路径下的 .x 文件
+
+2. `.*`
+
+表示的是该目录下所有的隐藏文件和目录以及 `.`，`..`。可以尝试执行 `ls ~/.*`
+
+3. `**`
+
+  - `*`    匹配0或者任意数量的字符         
+  - `**`    匹配0或者更多的目录
+
+如：             
+
+  - `/**/a`  匹配/b/a, /c/d/a, 和 /a,即匹配所有a文件夹，包括a为子文件夹的情况
+  - `/a/**/b` 匹配所有以a为上层文件夹，b为子文件夹的情况
+  - `/a/**/*` 匹配a路径下的任何文件和子文件,包括文件夹
+  - `/**/*.x` 匹配任何的.x文件
+
 ### 转义字符
 
 ```
@@ -120,8 +149,53 @@ rsync -r -e 'ssh -p 29771' root@65.49.195.225:/home/wwwroot/alvinhtml/  docker/a
 rsync docker/a/
 
 # 列出远程主机上 /home/wwwroot/alvinhtml/ 目录下的文件列表                     
-rsync -e 'ssh -p 29771' root@65.49.195.225:/home/wwwroot/alvinhtml/           
+rsync -e 'ssh -p 29771' root@65.49.195.225:/home/wwwroot/alvinhtml/     
+
+# 将 a 目录同步到 b, 排除所有层级下的 ax 目录，
+rsync -av --exclude "ax" ./a ./b  
 ```
+
+rsync 使用 `--exclude "ax"` 后的同步结果：
+
+```
+.
+├── a
+│   ├── a1
+│   │   └── b
+│   │       └── ax
+│   │           └── 1.txt
+│   └── ax
+│       └── 2.txt
+├── b
+│   └── a
+│       └── a1
+│           └── b
+└──
+```
+
+假如源目录写为 `/var/www/` 就会把该目录下所有文件同步到目标目录，如果写为 `/var/www/*`，那么当前目录下的隐藏文件(文件夹名或文件名是以”.”号开头)则不会被同步，不过子目录中的隐藏文件还是会被同步。
+
+假设需要排除某个文件（或文件夹），可以用–exclude来指定，例如需要排除源目录下的dir1文件夹，可以写为：
+
+`/usr/bin/rsync -vzrtopg –exclude=dir1 /var/www/src/ /var/www/dest`
+
+可以同时排除多条，例如:
+
+`/usr/bin/rsync -vzrtopg –exclude=dir1 –exclude=dir2 /var/www/src/ /var/www/dest`
+
+除了上述方法，还可以通过–exclude-from来指定，例如：
+
+`/usr/bin/rsync -vzrtopg –exclude-from=exclude.list /var/www/src/ /var/www/dest`
+
+exclude.list文件中指定需要排除的列表，例如：
+
+```
+dir1
+[0-9]*
+dir2/.[a-z0-9]*
+.svn
+```
+
 
 ## yum
 

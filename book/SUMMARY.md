@@ -9,7 +9,7 @@
   * [Content Security Policy](web/content-security-policy.md)
   * [IndexedDB](web/IndexedDB.md)
   * [JavaScript API](web/javascript-api.md)
-  * [JavaScript常用工具函数](web/function.md)
+  * [JavaScript常用工具函数](web/javascript-function.md)
   * [JavaScript Event Loop](web/javascript-event-loop.md)
   * [JavaScript面试题](web/javascript-interview-questions.md)
   * [JSON Web Tokens](web/jwt.md)

@@ -88,6 +88,7 @@ ls -al ~/.ssh
 
 # 生成新的 ssh key
 ssh-keygen -t rsa -C "your_email@example.com"
+ssh-keygen -t ed25519 -C "react-lister.CircleCI@alvinhtml.com"
 ```
 
 运行上面的命令以后，系统会出现一系列提示，可以一路回车。其中有一个问题是，要不要对私钥设置口令（passphrase），如果担心私钥的安全，这里可以设置一个。
