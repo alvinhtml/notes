@@ -261,5 +261,16 @@ version1 - version2|大于等于version1，小于等于version2
 range1 &#124;&#124; range2|满足 range1 或者满足 range2，可以多个范围
 
 
+## package.json
+
+允许您覆盖特定嵌套依赖项的版本
+
+```js
+"resolutions": {
+  "graceful-fs": "4.2.4"
+},
+```
+
+
 ## 参考
 [npm 模块管理器](http://javascript.ruanyifeng.com/nodejs/npm.html#toc19)

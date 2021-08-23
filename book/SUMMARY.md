@@ -49,6 +49,7 @@
   * [SSH原理与运用](developer/ssh.md)
   * [Sequelize](developer/sequelize.md)
   * [单元测试](developer/unit-testing.md)
+  * [注释规范](developer/comment-specification.md)
 * [理解释计算机](computer/README.md)
   * [HTML5 WebSocket](computer/websocket.md)
   * [HTML5 EventSource](computer/eventsource.md)

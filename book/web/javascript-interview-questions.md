@@ -387,10 +387,9 @@ ES6 除了添加 let 和 const 命令。
 
 new操作符做了这些事：
 
-- 创建一个新的对象
-- 继承父类原型上的方法.
-- 添加父类的属性到新的对象上并初始化. 保存方法的执行结果.
-- 如果执行结果有返回值并且是一个对象, 返回执行的结果, 否则, 返回新创建的对象。
+- 基于函数的原型创建一个新的对象
+- 使用 apply 调用函数，改变 this 指向，并传入参数
+- 当函数返回值类型为对象时，则返回该对象, 否则, 返回新创建的对象。
 
 ```js
 function create (fn, ...arg) {
@@ -400,8 +399,8 @@ function create (fn, ...arg) {
  // 将 fn 的 this 指向 obj, 并获取 fn 函数执行的结果, 作用是把 this.name = xx 绑定 obj 后，变为 obj.name = xx
  const res = fn.apply(obj, arg);
 
- // 如果执行结果有返回值并且是一个对象, 返回执行的结果, 否则, 返回新创建的对象，返回 res 是用于构造函数中带有 return 的情况 function dog (name) { this.name = name; return '123'}
- return typeof result === 'object' ? res : obj;
+ // 当函数返回值类型为对象时，则返回该对象, 当函数返回值类型不为对象时，返回该构造函数的实例化对象
+ return typeof res === 'object' ? res : obj;
 }
 ```
 
