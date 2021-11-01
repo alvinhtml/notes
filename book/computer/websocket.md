@@ -301,4 +301,25 @@ router.ws("/test", (ws, req) => {
 module.exports = router
 ```
 
+
+
+
+
+## WebSocket 链接 mqtt
+
+```
+const ws228 = new WebSocket('ws://flex.xii.cloud:9001', 'mqtt')
+```
+
+
+
+
+
+
+
+
+
+
+
+
 WebSocket 实例对象的所有属性和方法清单，参见[这里](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)。   

@@ -41,6 +41,17 @@ evtSource.addEventListener('error',function(e){
 })
 ```
 
+## EventSource Type
+
+EventSource 的 type 代表事件的类型，不同的 type 需要通过 addEventListener 侦听
+
+```js
+// EventSource type 为  action
+evtSource.addEventListener('action',function(e){
+    console.log(e.data);
+});
+```
+
 ## 服务端
 
 事件流的对应 MIME 格式为 text/event-stream，而且其基于HTTP长连接。针对HTTP1.1规范默认采用长连接，针对HTTP1.0的服务器需要特殊设置。
