@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "gitbook serve ./book ./",
+    "dev": "gitbook serve ./book ./dist",
     "build": "rm -rf dist/* && gitbook build ./book ./dist"
   },
   "author": "alvinhtml@gmail.com",
