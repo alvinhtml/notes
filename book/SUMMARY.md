@@ -28,6 +28,8 @@
   * [SSO单点登录](web/sso.md)
 * [算法与数学](algorithm/README.md)
   * [排序算法](algorithm/sort.md)
+  * [JavaScript 中的链表](algorithm/linked.md)
+  * [JavaScript 中的树数据结构](algorithm/tree.md)
 * [开发者手册](developer/README.md)
   * [Atom](developer/atom.md)
   * [Angular 笔记](developer/angular.md)

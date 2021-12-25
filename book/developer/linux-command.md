@@ -549,6 +549,10 @@ cat /etc/shells
 chsh -s /bin/zsh
 ```
 
+## echo $?
+
+输出上一次命令的 code
+
 ## 自定义shell
 
 ## stat
