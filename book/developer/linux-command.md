@@ -51,12 +51,12 @@
 
 这里指的是只有 `*` 出现的情况，默认为单独的一个，`*` 没有和其它字符联合起来（表示目录的 `/` 除外）时，这种情况通配的是该目录下的所有非隐藏内容，包括非隐藏的目录和非隐藏的文件。如：
 
-  - `ls *` 的时候，相当于ls当前目录下的所有内容;
-  - `ls a*` 因为星号表示一个或者多个字符，所以可以找到a开头的所有文件；
-  - `ls *a` 但是以a结尾的没有，因为有文件的后缀，应该为 ls *a.txt；
-  - `ls *a*` 表示中间段含有a的文件；
-  - `/a/*` 匹配所有在a路径下的文件, 不包括文件夹    
-  - `/a/*.x`   匹配所有在 a 路径下的 .x 文件
+- `ls *` 的时候，相当于 ls 当前目录下的所有内容;
+- `ls a*` 因为星号表示一个或者多个字符，所以可以找到 a 开头的所有文件；
+- `ls *a` 但是以 a 结尾的没有，因为有文件的后缀，应该为 ls \*a.txt；
+- `ls *a*` 表示中间段含有 a 的文件；
+- `/a/*` 匹配所有在 a 路径下的文件, 不包括文件夹
+- `/a/*.x` 匹配所有在 a 路径下的 .x 文件
 
 2. `.*`
 
@@ -64,15 +64,15 @@
 
 3. `**`
 
-  - `*`    匹配0或者任意数量的字符         
-  - `**`    匹配0或者更多的目录
+- `*` 匹配 0 或者任意数量的字符
+- `**` 匹配 0 或者更多的目录
 
-如：             
+如：
 
-  - `/**/a`  匹配/b/a, /c/d/a, 和 /a,即匹配所有a文件夹，包括a为子文件夹的情况
-  - `/a/**/b` 匹配所有以a为上层文件夹，b为子文件夹的情况
-  - `/a/**/*` 匹配a路径下的任何文件和子文件,包括文件夹
-  - `/**/*.x` 匹配任何的.x文件
+- `/**/a` 匹配/b/a, /c/d/a, 和 /a,即匹配所有 a 文件夹，包括 a 为子文件夹的情况
+- `/a/**/b` 匹配所有以 a 为上层文件夹，b 为子文件夹的情况
+- `/a/**/*` 匹配 a 路径下的任何文件和子文件,包括文件夹
+- `/**/*.x` 匹配任何的.x 文件
 
 ### 转义字符
 
@@ -83,9 +83,9 @@
 ``（反引号）：执行命令语句
 ```
 
-### PATH变量
+### PATH 变量
 
-【在Linux中一切的都是文件，命令文件也不例外】
+【在 Linux 中一切的都是文件，命令文件也不例外】
 
 用户执行一条命令的过程如下:
 
@@ -96,35 +96,35 @@
 4. 通过$PATH变量定义的；路径进行命令查找
 ```
 
-TIPS：$PATH是“解释器助手”，负责告诉bash用户要执行的命令可能存放在哪里
+TIPS：$PATH 是“解释器助手”，负责告诉 bash 用户要执行的命令可能存放在哪里
 
 ### 重要的环境变量
 
 变量是由固定的“变量名”与用户或系统设置的“变量值”这两部分组成的
 
 HOME：用户的主目录（即家目录）。
-SHELL：用户在使用的SHELL解释器名称。
+SHELL：用户在使用的 SHELL 解释器名称。
 HISTSIZE：历史命令记录条数。
 HISTFILESIZE：历史命令记录条数。
 MAIL ：邮件信箱文件保存路径。
 LANG：系统语言、语系名称。
 RANDOM：生成一个随机数字。
-PS1：bash解释器的提示符。
+PS1：bash 解释器的提示符。
 PATH：定义解释器搜索用户执行命令的路径。
 EDITOR： 用户默认的文本编辑器。
 
 ## rsync
 
-rsync的目的是实现本地主机和远程主机上的文件同步(包括本地推到远程，远程拉到本地两种同步方式)，也可以实现本地不同路径下文件的同步，但不能实现远程路径1到远程路径2之间的同步(scp可以实现)。
+rsync 的目的是实现本地主机和远程主机上的文件同步(包括本地推到远程，远程拉到本地两种同步方式)，也可以实现本地不同路径下文件的同步，但不能实现远程路径 1 到远程路径 2 之间的同步(scp 可以实现)。
 
 rsync 具有如下的基本特性：
 
-* 可以镜像保存整个目录树和文件系统
-* 可以很容易做到保持原来文件的权限、时间、软硬链接等
-* 无须特殊权限即可安装
-* 优化的流程，文件传输效率高
-* 可以使用 rsh、ssh 方式来传输文件，当然也可以通过直接的 socket 连接
-* 支持匿名传输，以方便进行网站镜象
+- 可以镜像保存整个目录树和文件系统
+- 可以很容易做到保持原来文件的权限、时间、软硬链接等
+- 无须特殊权限即可安装
+- 优化的流程，文件传输效率高
+- 可以使用 rsh、ssh 方式来传输文件，当然也可以通过直接的 socket 连接
+- 支持匿名传输，以方便进行网站镜象
 
 无论本地同步目录还是远程同步数据，首次运行时将会把全部文件拷贝一次，以后再运行时将只拷贝有变化的文件（对于新文件）或文件的变化部分（对于原有文件）。
 
@@ -135,24 +135,25 @@ rsync 在首次复制时没有速度优势，速度不如 tar，因此当数据�
 ### rsync 用法
 
 rsync 是一个功能非常强大的工具，其命令也有很多功能选项。
+
 ```bash
 # 在本地同步, 同步目录需加 -r
 rsync -r docker/a/ docker/b/
 
-# 将本地 docker/a/ 目录拷贝到远程主机的 alvinhtml/ 下，以保证远程目录和本地 docker/a/ 保持同步           
+# 将本地 docker/a/ 目录拷贝到远程主机的 alvinhtml/ 下，以保证远程目录和本地 docker/a/ 保持同步
 rsync -r -e 'ssh -p 29771' docker/a/ root@65.49.195.225:/home/wwwroot/alvinhtml/
 
-# 将远程主机的 docker/a/ 目录拷贝到本地 alvinhtml/ 下，以保证本地目录和远程 docker/a/ 保持同步    
+# 将远程主机的 docker/a/ 目录拷贝到本地 alvinhtml/ 下，以保证本地目录和远程 docker/a/ 保持同步
 rsync -r -e 'ssh -p 29771' root@65.49.195.225:/home/wwwroot/alvinhtml/  docker/a/
 
-# 列出本地 docker/a/ 目录下的文件列表    
+# 列出本地 docker/a/ 目录下的文件列表
 rsync docker/a/
 
-# 列出远程主机上 /home/wwwroot/alvinhtml/ 目录下的文件列表                     
-rsync -e 'ssh -p 29771' root@65.49.195.225:/home/wwwroot/alvinhtml/     
+# 列出远程主机上 /home/wwwroot/alvinhtml/ 目录下的文件列表
+rsync -e 'ssh -p 29771' root@65.49.195.225:/home/wwwroot/alvinhtml/
 
 # 将 a 目录同步到 b, 排除所有层级下的 ax 目录，
-rsync -av --exclude "ax" ./a ./b  
+rsync -av --exclude "ax" ./a ./b
 ```
 
 rsync 使用 `--exclude "ax"` 后的同步结果：
@@ -175,7 +176,7 @@ rsync 使用 `--exclude "ax"` 后的同步结果：
 
 假如源目录写为 `/var/www/` 就会把该目录下所有文件同步到目标目录，如果写为 `/var/www/*`，那么当前目录下的隐藏文件(文件夹名或文件名是以”.”号开头)则不会被同步，不过子目录中的隐藏文件还是会被同步。
 
-假设需要排除某个文件（或文件夹），可以用–exclude来指定，例如需要排除源目录下的dir1文件夹，可以写为：
+假设需要排除某个文件（或文件夹），可以用–exclude 来指定，例如需要排除源目录下的 dir1 文件夹，可以写为：
 
 `/usr/bin/rsync -vzrtopg –exclude=dir1 /var/www/src/ /var/www/dest`
 
@@ -183,11 +184,11 @@ rsync 使用 `--exclude "ax"` 后的同步结果：
 
 `/usr/bin/rsync -vzrtopg –exclude=dir1 –exclude=dir2 /var/www/src/ /var/www/dest`
 
-除了上述方法，还可以通过–exclude-from来指定，例如：
+除了上述方法，还可以通过–exclude-from 来指定，例如：
 
 `/usr/bin/rsync -vzrtopg –exclude-from=exclude.list /var/www/src/ /var/www/dest`
 
-exclude.list文件中指定需要排除的列表，例如：
+exclude.list 文件中指定需要排除的列表，例如：
 
 ```
 dir1
@@ -196,10 +197,10 @@ dir2/.[a-z0-9]*
 .svn
 ```
 
-
 ## yum
 
-使用 `yum` 安装和更新软件包      
+使用 `yum` 安装和更新软件包
+
 ```bash
 # 列出所有可更新的软件清单
 yum check-update
@@ -217,11 +218,9 @@ yum update <package_name>        
 yum remove <package_name>
 ```
 
-
-
 ## which
 
-which 命令的原理：在PATH变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。
+which 命令的原理：在 PATH 变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。
 
 ```bash
 which npm
@@ -234,16 +233,13 @@ ls -l `which node`
 
 显示当前环境变量
 
-
-
 ## iproute2
 
-iproute2是linux下管理控制TCP/IP网络和流量控制的新一代工具包，旨在替代老派的工具链net-tools，即大家比较熟悉的ifconfig，arp，route，netstat等命令。net-tools通过procfs(/proc)和ioctl系统调用去访问和改变内核网络配置，而iproute2则通过netlink套接字接口与内核通讯。
+iproute2 是 linux 下管理控制 TCP/IP 网络和流量控制的新一代工具包，旨在替代老派的工具链 net-tools，即大家比较熟悉的 ifconfig，arp，route，netstat 等命令。net-tools 通过 procfs(/proc)和 ioctl 系统调用去访问和改变内核网络配置，而 iproute2 则通过 netlink 套接字接口与内核通讯。
 
+### ip 地址管理
 
-### ip地址管理
-
-#### 1.显示ip地址
+#### 1.显示 ip 地址
 
 ```bash
 ip a
@@ -302,13 +298,11 @@ ip route add 10.2.2.128/27 dev gre01
 ip route add default via 192.168.1.1
 ```
 
-
 #### 9.修改默认路由
 
 ```bash
 ip route chg default via 192.168.1.2
 ```
-
 
 #### 10.删除默认路由
 
@@ -318,7 +312,7 @@ ip route del default
 
 ## sysctl 内核与模块管理
 
-sysctl命令被用于在内核运行时动态地修改内核的运行参数
+sysctl 命令被用于在内核运行时动态地修改内核的运行参数
 
 ```
 sysctl(选项)(参数)
@@ -377,7 +371,6 @@ nc [-hlnruz][-g<网关...>][-G<指向器数目>][-i<延迟秒数>][-o<输出文�
 nc -v -w2 65.49.195.225 8350-8359
 ```
 
-
 ## md5
 
 ```bash
@@ -392,7 +385,6 @@ grep [选项] 搜索内容 文件名
 
 选项说明
 
-
 ```
 -A n：n为数字，列出符合条件的行，并列出后续的n行。
 -B n：n为数字，列出符合条件的行，并列出前面的n行。
@@ -402,7 +394,6 @@ grep [选项] 搜索内容 文件名
 -v：反向査找，也就是查询没有关键字的一行。
 --color=auto：搜索出的关键字用颜色显示。
 ```
-
 
 ## lsof
 
@@ -448,7 +439,7 @@ ln -s /a/err.log /b/err.log
 
 - top: 用于实时显示 process 的动态
 - free: 查看系统内存使用情况
-- cat /proc/meminfo: 查看RAM使用情况最简单的方法是通过 /proc/meminfo
+- cat /proc/meminfo: 查看 RAM 使用情况最简单的方法是通过 /proc/meminfo
 
 这个动态更新的虚拟文件实际上是许多其他内存相关工具(如：free / ps / top)等的组合显示。
 
@@ -470,7 +461,7 @@ tree -P .DS_Store/ -a # / 表示不显示
 ```
 
 - \-a 显示所有文件和目录。
-- \-A 使用ASNI绘图字符显示树状图而非以ASCII字符组合。
+- \-A 使用 ASNI 绘图字符显示树状图而非以 ASCII 字符组合。
 - \-C 在文件和目录清单加上色彩，便于区分各种类型。
 - \-d 显示目录名称而非内容。
 - \-D 列出文件或目录的更改时间。
@@ -553,9 +544,10 @@ chsh -s /bin/zsh
 
 输出上一次命令的 code
 
-## 自定义shell
+## 自定义 shell
 
 ## stat
+
 Linux stat 命令用于显示 inode 内容。
 
 语法:
@@ -563,3 +555,5 @@ Linux stat 命令用于显示 inode 内容。
 ```
 stat [文件或目录]
 ```
+
+## nohup ./trojan-go -config config.json &
