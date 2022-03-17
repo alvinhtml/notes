@@ -2,26 +2,27 @@
 
 ## HEAD、Index、Working Directory
 
-Git里有三个区域很重要
+Git 里有三个区域很重要
 
-- `HEAD` 指向最近一次commit里的所有snapshot
-- `Index` 缓存区域，只有Index区域里的东西才可以被commit
+- `HEAD` 指向最近一次 commit 里的所有 snapshot
+- `Index` 缓存区域，只有 Index 区域里的东西才可以被 commit
 - `Working Directory` 用户操作区域
 
+## checkout 分支
 
-## checkout分支
-当你checkout分支的时候，git做了这么三件事情
+当你 checkout 分支的时候，git 做了这么三件事情
 
-- 将HEAD指向那个分支的最后一次commit
-- 将HEAD指向的commit里所有文件的snapshot替换掉Index区域里原来的内容
-- 将Index区域里的内容填充到Working Directory里
+- 将 HEAD 指向那个分支的最后一次 commit
+- 将 HEAD 指向的 commit 里所有文件的 snapshot 替换掉 Index 区域里原来的内容
+- 将 Index 区域里的内容填充到 Working Directory 里
 
-所以你可以发现，HEAD、Index、Working Directory这个时候里的内容都是一模一样的。
+所以你可以发现，HEAD、Index、Working Directory 这个时候里的内容都是一模一样的。
 
 ## Staged
-一个文件仅仅changed是不能被commit的，Git要求只能提交Index里的东西。
 
-所以需要git add。这个命令的意思是，把Changed的文件的内容同步到Index区域里。这样Working Directory和Index区域的内容就一致了。这个过程被称之为stage
+一个文件仅仅 changed 是不能被 commit 的，Git 要求只能提交 Index 里的东西。
+
+所以需要 git add。这个命令的意思是，把 Changed 的文件的内容同步到 Index 区域里。这样 Working Directory 和 Index 区域的内容就一致了。这个过程被称之为 stage
 
 ## 分支操作
 
@@ -58,7 +59,9 @@ git rebase --edit-todo
 # 这时候会一直处在这个编辑的模式里，我们可以回去继续编辑，修改完保存一下：
 git rebase --continue
 ```
+
 ### 分支合并
+
 ```bash
 # 创建并切换到分支 feature1
 git checkout -b feature1
@@ -83,20 +86,18 @@ git push alvin-csphere-frontend --delete login-background
 git push alvin-ksphere :branch-name
 ```
 
-
-
 ### 批量删除分支
 
 ```bash
 git branch |grep 'branchName' |xargs git branch -D
 ```
- - `git branch` 输出当前分支列表
- - `grep` 是对 `git branch` 的输出结果进行匹配，匹配值当然就是 `branchName`
- - `xargs` 参数传递命令。用于将标准输入作为命令的参数传给下一个命令。
 
-
+- `git branch` 输出当前分支列表
+- `grep` 是对 `git branch` 的输出结果进行匹配，匹配值当然就是 `branchName`
+- `xargs` 参数传递命令。用于将标准输入作为命令的参数传给下一个命令。
 
 ### 查看分支切换日志
+
 ```bash
 git reflog --date=local | grep branchname
 ```
@@ -104,7 +105,6 @@ git reflog --date=local | grep branchname
 ## Stashing
 
 你正在进行项目中某一部分的工作，里面的东西处于一个比较杂乱的状态，而你想转到其他分支上进行一些工作。问题是，你不想提交进行了一半的工作，否则以后你无法回到这个工作点。解决这个问题的办法就是 `git stash` 命令。
-
 
 ```bash
 # 储藏当前变更
@@ -139,14 +139,13 @@ git stash drop stash@{1}
 git stash clear
 ```
 
-
 ## reset
 
-Git有三个区域，Git 的所有操作实际上是在操作这三个区域的状态（或内容）。
+Git 有三个区域，Git 的所有操作实际上是在操作这三个区域的状态（或内容）。
 
 git reset 配合不同的参数，对这三个区域会产生不同的影响。
 
-reset 实际上有3个步骤，根据不同的参数可以决定执行到哪个步骤(`--soft`, `--mixed`, `--hard`)。
+reset 实际上有 3 个步骤，根据不同的参数可以决定执行到哪个步骤(`--soft`, `--mixed`, `--hard`)。
 
 - 改变 HEAD 所指向的 commit (`--soft`)
 - 执行第 1 步，将 Index 区域更新为 HEAD 所指向的 commit 里包含的内容(`--mixed`)
@@ -161,9 +160,6 @@ git reset HEAD
 # 撤消所有 add 到 index 区域里的单个文件
 git reset HEAD test.js
 ```
-
-
-
 
 ## 远程仓库
 
@@ -229,14 +225,14 @@ git fetch origin pull/1/head:pr-1
 
 Git 提供了两种补丁方案，一是用 git diff 生成的 UNIX 标准补丁 .diff 文件，二是 git format-patch 生成的 Git 专用 .patch 文件。
 
-.diff文件只是记录文件改变的内容，不带有commit记录信息,多个commit可以合并成一个diff文件。
+.diff 文件只是记录文件改变的内容，不带有 commit 记录信息,多个 commit 可以合并成一个 diff 文件。
 
-.patch文件带有记录文件改变的内容，也带有commit记录信息,每个commit对应一个patch文件。
+.patch 文件带有记录文件改变的内容，也带有 commit 记录信息,每个 commit 对应一个 patch 文件。
 
 使用 git 的 format-patch 和 am 命令进行生成 patch 和打 patch
 
 1. 对于 git 这种以 project 为单位的修改，尤其是涉及到多个文件夹下的多个文件的改动时，非常方便，能够记录所有的改动（添加，修改，删除文件等）
-2. 可以保存commit信息。
+2. 可以保存 commit 信息。
 3. 能够灵活的获取 patch。可以获取任意两个 commit 之间的 patch 集。
 
 ### git format-patch
@@ -261,7 +257,7 @@ git format-patch -1 <r1>
 git format-patch <r1>
 
 # 生成从根到r1提交的所有patch
-git format-patch --root <r1>　　　　　　　　　　　　   
+git format-patch --root <r1>　　　　　　　　　　　　
 ```
 
 ### git diff
@@ -295,24 +291,25 @@ git am ~/patch-set/*.patch
 # 当 git am 失败时，用以将已经在 am 过程中打上的 patch 废弃掉, 返回没有打 patch 的状态
 git am --abort
 
-#当 git am 失败，解决完冲突后，这条命令会接着打 patch, git am --resolved 和 git am --continue 是一样的                                                      
+#当 git am 失败，解决完冲突后，这条命令会接着打 patch, git am --resolved 和 git am --continue 是一样的
 git am --resolved
 ```
 
-如果打Patch的过程中发生了冲突（conflicts），怎么办？
+如果打 Patch 的过程中发生了冲突（conflicts），怎么办？
 
 方案一（个人推荐）：
 
-1. 根据 git am 失败的信息，找到发生冲突的具体 patch 文件，然后用命令 `git apply --reject <patch_name>`，强行打这个 patch，发生冲突的部分会保存为 `.rej`，未发生冲突的部分会成功打上patch
+1. 根据 git am 失败的信息，找到发生冲突的具体 patch 文件，然后用命令 `git apply --reject <patch_name>`，强行打这个 patch，发生冲突的部分会保存为 `.rej`，未发生冲突的部分会成功打上 patch
 2. 根据 `.rej` 文件，通过编辑该 patch 文件的方式解决冲突。
 3. 废弃上一条 am 命令已经打了的 patch：`git am --abort`
 4. 重新打 patch：`git am ~/patch-set/*.patchpatch`
 
 方案二：
-1. 根据 git am 失败的信息，找到发生冲突的具体 patch 文件，然后用命令 `git apply --reject <patch_name>`，强行打这个 patch，发生冲突的部分会保存为 `.rej`，未发生冲突的部分会成功打上patch
+
+1. 根据 git am 失败的信息，找到发生冲突的具体 patch 文件，然后用命令 `git apply --reject <patch_name>`，强行打这个 patch，发生冲突的部分会保存为 `.rej`，未发生冲突的部分会成功打上 patch
 2. 根据 `.rej` 文件，通过编辑发生冲突的 code 文件的方式解决冲突。
 3. 将该 patch 涉及到的所有文件（不仅仅是发生冲突的文件）通过命令 `git add <file_name>` 添加到工作区中
-4. 告诉 git冲 突已经解决，继续打 patch: `git am --resolved`
+4. 告诉 git 冲 突已经解决，继续打 patch: `git am --resolved`
 
 分析：方案一和方案二主要区别是解决冲突的方法不一样。方案一是通过编辑 patch 文件的方式解决冲突，方案二十通过编辑冲突 code 文件的方式解决冲突。这两种方案区别比较大：经过实验，核心区别在于，方案二无法验证冲突有没有切实的解决。即使你在方案二的第二步乱改一通，也能“打完”发生冲突的 patch（并没有检测修改后的 code 文件跟 patch 期望的是否相同）。因此，如果采用方案二，那么再解决 code 文件冲突后，需要人工去确认修改的正确性。
 
