@@ -293,6 +293,52 @@ npm --force unpublish [package name]
 },
 ```
 
+## 使用 n 管理 node
+
+1. 查看可用 node 列表
+
+```bash
+n ls
+```
+
+2. 安装指定版本的 node
+
+查看官方所有的 node 版本：
+
+```bash
+npm view node versions
+```
+
+以安装 14.15.3 版本的 node 为例，命令行执行：
+
+```bash
+sudo n 14.15.3
+```
+
+3. 切换 node 版本
+
+现在，我的 node 版本是 14.15.3 的，我想使用 10.13.0 的版本。
+
+命令行执行：
+
+```bash
+sudo n
+```
+
+通过上下键，选择要使用的 node 版本，回车键安装，d 删除，q 退出，回车安装
+
+4. 删除指定版本 node
+
+命令行运行：
+
+```bash
+sudo n rm 10.13.0
+```
+
 ## 参考
 
 [npm 模块管理器](http://javascript.ruanyifeng.com/nodejs/npm.html#toc19)
+
+```
+
+```
