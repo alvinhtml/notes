@@ -318,3 +318,48 @@ git am --resolved
 ```bash
 git diff b70f3992cd63de7b9652326896b72e8f10f2de16 |grep ^diff|sed -e 's/^.* b\///'|xargs tar zcf /tmp/t.tgz
 ```
+
+1. fork 主仓库
+2. 克隆仓库到本地
+  ```bash
+  git clone http://gitlab.example.com/your_name/nad.git nad
+  ```
+3. 显示本地有哪些远程仓库, 并添加主仓库到本地
+```bash
+git remote -v
+git remote add upstream http://gitlab.example.com/lijingfei/nad.git
+```
+  upstream 是远程仓库的别名 `git remote -v` 可以看到本地有两个远程仓库
+```
+origin	http://gitlab.example.com/your_name/nad.git
+upstream	http://gitlab.example.com/lijingfei/nad.git
+```
+5. 拉取（更新）代码
+```bash
+git fetch upstream
+```
+  - 拉取代码永远是从主仓库，也就是公用仓库拉取
+
+6. 每开始一个任务前，基于主仓库的 master 分支，创建一个新的分支，这样保证代码永远是最新的
+```bash
+git checkout upstream/master -b new_branch
+```
+7. 提交代码
+```bash
+git add <file>
+git commit -m  'message'
+```
+8. 推送到远程仓库 origin（自己 fork 的那个仓库）
+```bash
+git push origin new_branch
+```
+9. 提 PR （pull requests）从 origin/new_branch ->  upstream/master
+  - 指定 review 人员
+  - 在这一步解决代码冲突
+
+10. 管理员审核后 marge PR
+11. 开始新的任务，拉取代码，创建新分支
+```bash
+git fetch upstream
+git checkout upstream/master -b new_branch_2
+```

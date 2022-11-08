@@ -150,7 +150,7 @@ UMD 叫做通用模块定义规范（Universal Module Definition）。也是随�
         root.testModule = factory(root.jQuery);
     }
 })(this, ($) => {
-    // todo 
+    // todo
 });
 ```
 

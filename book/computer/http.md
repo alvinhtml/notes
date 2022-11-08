@@ -124,6 +124,7 @@ HTTP协议（HyperText Transfer Protocol，超文本传输协议）是用于从�
     - Accept-Charset请求报头域用于指定客户端接受的字符集。eg：Accept-Charset:iso-8859-1, gb2312.如果在请求消息中没有设置这个域，缺省是任何字符集都可以接受。
   - Cache-Control: no-cache
   - Connection: keep-alive
+    - close
   - Authorization
     - Authorization请求报头域主要用于证明客户端有权查看某个资源。当浏览器访问一个页面时，如果收到服务器的响应代码为401（未授权），可以发送一个包含Authorization请求报头域的请求，要求服务器对其进行验证。
   - Host（发送请求时，该报头域是必需的）

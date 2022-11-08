@@ -395,6 +395,20 @@ grep [选项] 搜索内容 文件名
 --color=auto：搜索出的关键字用颜色显示。
 ```
 
+## ls
+
+```bash
+# 查看文件夹大小
+ls -lh
+```
+
+## du
+
+```bash
+# 查看文件夹大小
+du -h -d 1
+```
+
 ## lsof
 
 查看端口被哪个进程占用
@@ -555,5 +569,3 @@ Linux stat 命令用于显示 inode 内容。
 ```
 stat [文件或目录]
 ```
-
-## nohup ./trojan-go -config config.json &
