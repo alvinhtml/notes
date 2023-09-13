@@ -326,12 +326,18 @@ vi /etc/ssh/sshd_config
 
 # 在公司内网服务器运行命令，输入公网服务器密码
 ssh -Nf -R *:10175:localhost:22 ec2-user@18.217.233.182
+ssh -Nf -R *:10175:localhost:22 root@144.34.170.146
 
 # 在家庭网络PC上运行
 ssh -p 10175 ec2-user@18.217.233.182
 
 
 ssh -Nf -R *:17580:localhost:443 ec2-user@18.217.233.182
+ssh -Nf -R *:19002:localhost:9002 root@144.34.170.146
+
+ssh -Nf -R *:17580:localhost:443 root@144.34.170.146
+ssh -Nf -R *:22222:localhost:22 root@144.34.170.146
+ssh -Nf -R *:11187:192.168.1.187:80 root@144.34.170.146
 ```
 
 ## SSH 的其他参数

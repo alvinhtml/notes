@@ -19,27 +19,26 @@ iframe 永久帧则是在在页面嵌入一个专用来接受数据的 iframe �
 
 HTML5 规范中提供了服务端事件 EventSource，浏览器在实现了该规范的前提下创建一个 EventSource 连接后，便可收到服务端的发送的消息，这些消息需要遵循一定的格式，对于前端开发人员而言，只需在浏览器中侦听对应的事件皆可。
 
-相比较上文中提到的 3 中实现方式，EventSource 流的实现方式对客户端开发人员而言非常简单，兼容性上出了IE系的浏览器（IE、Edge）外其他都良好；对于服务端，它可以兼容老的浏览器，无需 upgrade 为其他协议，在简单的服务端推送的场景下可以满足需求。在浏览器与服务端需要强交互的场景下，websocket 仍是不二的选择。
+相比较上文中提到的 3 中实现方式，EventSource 流的实现方式对客户端开发人员而言非常简单，兼容性上出了 IE 系的浏览器（IE、Edge）外其他都良好；对于服务端，它可以兼容老的浏览器，无需 upgrade 为其他协议，在简单的服务端推送的场景下可以满足需求。在浏览器与服务端需要强交互的场景下，websocket 仍是不二的选择。
 
 ## EventSource 浏览器端
 
 要在浏览器端创建一个 EventSource 链接，需要 new 一个 EventSource 对象，并且传入一个服务端的接口 URI 作为参数。
 
 ```js
-const evtSource = new EventSource('http://localhost:8081/es');
+const evtSource = new EventSource('http://localhost:8081/es')
 ```
-
 
 其中，`http://localhost:8081/es` 为服务端吐出数据的接口。目前，EventSource 在大多数浏览器端不支持跨域，因此它不是一种跨域的解决方案。
 
 默认 EventSource 对象通过侦听 `message` 事件获取服务端传来的消息，`open` 事件则在 http 连接建立后触发，`error` 事件会在通信错误（连接中断、服务端返回数据失败）的情况下触发。同时，EventSource 规范允许服务端指定自定义事件，客户端侦听该事件即可。
 
 ```js
-evtSource.addEventListener('message', function(event) {
-  console.log(event.data);
-});
-evtSource.addEventListener('error', function(event) {
-  console.log(event);
+evtSource.addEventListener('message', function (event) {
+  console.log(event.data)
+})
+evtSource.addEventListener('error', function (event) {
+  console.log(event)
 })
 ```
 
@@ -49,9 +48,9 @@ EventSource 的 type 代表事件的类型，不同的 type 需要通过 addEven
 
 ```js
 // EventSource type 为  action
-evtSource.addEventListener('action', function(e) {
-  console.log(e.data);
-});
+evtSource.addEventListener('action', function (e) {
+  console.log(e.data)
+})
 ```
 
 ## 服务端
@@ -63,7 +62,7 @@ evtSource.addEventListener('action', function(e) {
 - event - event 指定自定义消息的名称，如 `event: customMessage\n`
 - data - data 指定具体的消息体，可以是对象或者字符串，如 `data: JSON.stringify(jsonObj)\n\n`，在消息体后面有两个换行符 `\n`，代表当前消息体发送完毕，一个换行符标识当前消息并未结束，浏览器需要等待后面数据的到来后再触发事件；
 - id - 当前消息的标识符，可以不设置。一旦设置则在浏览器端的 EventSource 对象中就会有体现(假设服务端返回`id: 369\n`)，`eventSource.lastEventId == 369`。
-- retry - 设置当前 http 连接失败后，重新连接的间隔。EventSource 规范规定，客户端在 http 连接失败后默认进行重新连接，重连间隔为3s，通过设置 retry 字段可指定重连间隔;
+- retry - 设置当前 http 连接失败后，重新连接的间隔。EventSource 规范规定，客户端在 http 连接失败后默认进行重新连接，重连间隔为 3s，通过设置 retry 字段可指定重连间隔;
 
 每个字段都有名称，紧接着有个 `:`。当出现一个没有名称的字段而只有 `:` 时，这就会被服务端理解为注释，并不会被发送至浏览器端，如 `:commision`。
 

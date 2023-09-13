@@ -14,10 +14,9 @@ Cross-Site Scripting（跨站脚本攻击）简称 XSS，是一种代码注入�
 
 - 存储型：攻击者将恶意代码提交到目标网站的数据库中
 - 反射型：攻击者构造出特殊的 URL，其中包含恶意代码
-- DOM型：攻击者构造出特殊的 URL，其中包含恶意代码，前端 JavaScript 取出 URL 中的恶意代码并执行
+- DOM 型：攻击者构造出特殊的 URL，其中包含恶意代码，前端 JavaScript 取出 URL 中的恶意代码并执行
 
 DOM 型 XSS 跟前两种 XSS 的区别：DOM 型 XSS 攻击中，取出和执行恶意代码由浏览器端完成，属于前端 JavaScript 自身的安全漏洞，而其他两种 XSS 都属于服务端的安全漏洞。
-
 
 ### XSS 注入的方法
 
@@ -46,11 +45,11 @@ XSS 攻击主要是通过用户输入向代码中注入脚本。
 
 ## CSRF
 
-### 什么是CSRF
+### 什么是 CSRF
 
 CSRF（Cross-site request forgery）跨站请求伪造：攻击者诱导受害者进入第三方网站，在第三方网站中，向被攻击网站发送跨站请求。利用受害者在被攻击网站已经获取的注册凭证，绕过后台的用户验证，达到冒充用户对被攻击的网站执行某项操作的目的。
 
-一个典型的CSRF攻击有着如下的流程：
+一个典型的 CSRF 攻击有着如下的流程：
 
 1. 受害者登录 a.com，并保留了登录凭证（Cookie）。
 2. 攻击者引诱受害者访问了 b.com。
@@ -68,47 +67,53 @@ CSRF（Cross-site request forgery）跨站请求伪造：攻击者诱导受害�
 <img src="![](https://www.a.com?act=xxx)" />
 
 <!-- POST类型的CSRF -->
-<form action="https://www.a.com" method=POST>
-    <input type="hidden" name="act" value="xxx" />
+<form action="https://www.a.com" method="POST">
+  <input type="hidden" name="act" value="xxx" />
 </form>
-<script> document.forms[0].submit(); </script>
+<script>
+  document.forms[0].submit()
+</script>
 
 <!-- 链接类型的CSRF -->
-<a href="https://www.a.com?act=xxx" taget="_blank">重磅消息！<a/>
+<a href="https://www.a.com?act=xxx" taget="_blank">重磅消息！<a /></a>
 ```
 
-### CSRF的特点
+### CSRF 的特点
 
 1. 攻击一般发起在第三方网站，而不是被攻击的网站。被攻击的网站无法防止攻击发生。
 2. 攻击利用受害者在被攻击网站的登录凭证，冒充受害者提交操作；而不是直接窃取数据。
 3. 整个过程攻击者并不能获取到受害者的登录凭证，仅仅是“冒用”。
-4. 跨站请求可以用各种方式：图片URL、超链接、CORS、Form提交等等。部分请求方式可以直接嵌入在第三方论坛、文章中，难以进行追踪。
+4. 跨站请求可以用各种方式：图片 URL、超链接、CORS、Form 提交等等。部分请求方式可以直接嵌入在第三方论坛、文章中，难以进行追踪。
 
-CSRF通常是跨域的，因为外域通常更容易被攻击者掌控。但是如果本域下有容易被利用的功能，比如可以 **发图和链接的论坛和评论区**，攻击可以直接在本域下进行，而且这种攻击更加危险。
+CSRF 通常是跨域的，因为外域通常更容易被攻击者掌控。但是如果本域下有容易被利用的功能，比如可以 **发图和链接的论坛和评论区**，攻击可以直接在本域下进行，而且这种攻击更加危险。
 
 ### 防护策略
 
 1. CSRF Token
 2. 同源检测
-  - 既然 CSRF 大多来自第三方网站，那么我们就直接禁止外域（或者不受信任的域名）对我们发起请求
-  - 使用 Origin Header 确定来源域名
-  - 使用 Referer Header 确定来源域名
-3. 双重Cookie验证
-  1. 在用户访问网站页面时，向请求域名注入一个Cookie，内容为随机字符串（例如csrfcookie=v8g9e4ksfhw）。
-  2. 在前端向后端发起请求时，取出Cookie，并添加到URL的参数中（接上例POST a.com?csrfcookie=v8g9e4ksfhw）。
-  3. 后端接口验证Cookie中的字段与URL参数中的字段是否一致，不一致则拒绝。
-4. Samesite Cookie属性
+
+- 既然 CSRF 大多来自第三方网站，那么我们就直接禁止外域（或者不受信任的域名）对我们发起请求
+- 使用 Origin Header 确定来源域名
+- 使用 Referer Header 确定来源域名
+
+3. 双重 Cookie 验证
+1. 在用户访问网站页面时，向请求域名注入一个 Cookie，内容为随机字符串（例如 csrfcookie=v8g9e4ksfhw）。
+1. 在前端向后端发起请求时，取出 Cookie，并添加到 URL 的参数中（接上例 POST a.com?csrfcookie=v8g9e4ksfhw）。
+1. 后端接口验证 Cookie 中的字段与 URL 参数中的字段是否一致，不一致则拒绝。
+1. Samesite Cookie 属性
 
 ### Samesite Cookie
 
-为了从源头上解决CSRF攻击，Google 起草了一份草案来改进 HTTP 协议，那就是为 Set-Cookie 响应头新增 Samesite 属性，它用来标明这个 Cookie 是个同站 Cookie，同站 Cookie 只能作为第一方 Cookie，不能作为第三方Cookie，Samesite 有两个属性值，分别是 Strict 和 Lax:
-
+为了从源头上解决 CSRF 攻击，Google 起草了一份草案来改进 HTTP 协议，那就是为 Set-Cookie 响应头新增 Samesite 属性，它用来标明这个 Cookie 是个同站 Cookie，同站 Cookie 只能作为第一方 Cookie，不能作为第三方 Cookie，Samesite 有两个属性值，分别是 Strict 和 Lax:
 
 1. 严格模式 Samesite=Strict 表明这个 Cookie 在任何情况下都不可能作为第三方 Cookie
-  - 浏览器在任何跨域请求中都不会携带Cookie，新标签重新打开也不携带，所以说CSRF攻击基本没有机会。
-  - 跳转子域名或者是新标签重新打开新标签，都需要重新登录，用户体验不好。
-2. 宽松模式 Samesite=Lax 假如这个请求改变了当前页面或者打开了新页面, 且同时是个GET请求，则这个Cookie可以作为第三方Cookie.
-  - 通过页面跳转过来的时候可以使用Cookie，可以保障外域连接打开页面时用户的登录状态。但相应的，其安全性也比较低。
+
+- 浏览器在任何跨域请求中都不会携带 Cookie，新标签重新打开也不携带，所以说 CSRF 攻击基本没有机会。
+- 跳转子域名或者是新标签重新打开新标签，都需要重新登录，用户体验不好。
+
+2. 宽松模式 Samesite=Lax 假如这个请求改变了当前页面或者打开了新页面, 且同时是个 GET 请求，则这个 Cookie 可以作为第三方 Cookie.
+
+- 通过页面跳转过来的时候可以使用 Cookie，可以保障外域连接打开页面时用户的登录状态。但相应的，其安全性也比较低。
 
 ```
 Set-Cookie: foo=1; Samesite=Strict
@@ -118,18 +123,17 @@ Set-Cookie: baz=3
 
 #### SamesiteCookie 缺陷
 
-1. 兼容性不是很好，现阶段除了从新版Chrome和Firefox支持以外，Safari以及iOS Safari都还不支持。
+1. 兼容性不是很好，现阶段除了从新版 Chrome 和 Firefox 支持以外，Safari 以及 iOS Safari 都还不支持。
 2. SamesiteCookie 在子域 me.a.com 下不能使用 a.com 下种植的 SamesiteCookie。多个子域名不能共享 SamesiteCookie 在主域名存储用户登录信息，每个子域名都需要用户重新登录一次。
-
 
 ### 防止网站被利用
 
-- 严格管理所有的上传接口，防止任何预期之外的上传内容（例如HTML）。
-- 添加 `Header X-Content-Type-Options: nosniff` 防止黑客上传HTML内容的资源（例如图片）被解析为网页。
+- 严格管理所有的上传接口，防止任何预期之外的上传内容（例如 HTML）。
+- 添加 `Header X-Content-Type-Options: nosniff` 防止黑客上传 HTML 内容的资源（例如图片）被解析为网页。
 - 对于用户上传的图片，进行转存或者校验。不要直接使用用户填写的图片链接。
 - 当前用户打开其他用户填写的链接时，需告知风险（这也是很多论坛不允许直接在内容中发布外域链接的原因之一，不仅仅是为了用户留存，也有安全考虑）。
 
-### 个人用户CSRF安全的建议
+### 个人用户 CSRF 安全的建议
 
 经常上网的个人用户，可以采用以下方法来保护自己：
 
