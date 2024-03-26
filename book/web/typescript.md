@@ -2,13 +2,9 @@
 
 TypeScript 是 JavaScript 的一个超集，主要提供可选的静态类型，类和接口。它由 Microsoft 开发，代码开源于 [GitHub](https://github.com/Microsoft/TypeScript) 上.
 
-
-
 > TypeScript 是 JavaScript 的类型的超集，它可以编译成纯 JavaScript。编译出来的 JavaScript 可以运行在任何浏览器上。TypeScript 编译工具可以运行在任何服务器和任何系统上。TypeScript 是开源的。
 
-
 TypeScript 是 JavaScript 的强类型版本。然后在编译期去掉类型和特有语法，生成纯粹的 JavaScript 代码。由于最终在浏览器中运行的仍然是 JavaScript，所以 TypeScript 并不依赖于浏览器的支持，也并不会带来兼容性问题。
-
 
 ## TypeScript 优势
 
@@ -32,7 +28,6 @@ TypeScript 是 JavaScript 的强类型版本。然后在编译期去掉类型和
 - Google 开发的 Angular2 就是使用 TypeScript 编写的
 - TypeScript 拥抱了 ES6 规范，也支持部分 ESNext 草案的规范
 
-
 ## TypeScript 的缺点
 
 任何事物都是有两面性的，我认为 TypeScript 的弊端在于：
@@ -41,6 +36,24 @@ TypeScript 是 JavaScript 的强类型版本。然后在编译期去掉类型和
 - 短期可能会增加一些开发成本，毕竟要多写一些类型的定义，不过对于一个需要长期维护的项目，TypeScript 能够减少其维护成本
 - 集成到构建流程需要一些工作量
 - 可能和一些库结合的不是很完美
+
+## 静态类型的优缺点
+
+静态类型的优点
+
+- （1）有利于代码的静态分析。
+- （2）有利于发现错误。
+- （3）更好的 IDE 支持，做到语法提示和自动补全。
+- （4）提供了代码文档。
+- （5）有助于代码重构。
+
+静态类型的缺点
+
+- （1）丧失了动态类型的代码灵活性。
+- （2）增加了编程工作量。
+- （3）更高的学习成本。
+- （4）引入了独立的编译步骤。
+- （5）兼容性问题。
 
 ## 安装 TypeScript
 
@@ -66,11 +79,11 @@ tsc hello.ts
 
 ```js
 function sayHello(person: string) {
-    return 'Hello, ' + person;
+  return 'Hello, ' + person
 }
 
-let user = 'Tom';
-console.log(sayHello(user));
+let user = 'Tom'
+console.log(sayHello(user))
 ```
 
 然后执行
@@ -83,17 +96,78 @@ tsc hello.ts
 
 ```js
 function sayHello(person) {
-    return 'Hello, ' + person;
+  return 'Hello, ' + person
 }
-var user = 'Tom';
-console.log(sayHello(user));
+var user = 'Tom'
+console.log(sayHello(user))
 ```
+
 TypeScript 中，使用 `:` 指定变量的类型，`:` 的前后有没有空格都可以。上述例子中，我们用 `:` 指定 `person` 参数类型为 `string`。但是编译为 js 之后，检查类型的代码并没有被插入进来。
 
 TypeScript 只会进行静态检查，如果发现有错误，编译的时候就会报错。但是即使报错了，还是会生成编译结果，我们仍然可以使用这个编译之后的文件。如果要在报错的时候终止 js 文件的生成，可以在 `tsconfig.json` 中配置 `noEmitOnError` 即可。
 
-
 ## 数据类型
+
+### 概要
+
+```
+- 类型声明
+  - TypeScript 代码最明显的特征，就是为 JavaScript 变量加上了类型声明。
+- 类型推断
+  - 类型声明并不是必需的，如果没有，TypeScript 会自己推断类型。
+- 值与类型
+  - “类型”是针对“值”的，可以视为是后者的一个元属性。每一个值在 TypeScript 里面都是有类型的。比如，3是一个值，它的类型是number。
+- tsc 编译器
+  - TypeScript 官方提供的编译器叫做 tsc，可以将 TypeScript 脚本编译成 JavaScript 脚本。
+- any 类型
+  - any 类型表示没有任何限制，该类型的变量可以赋予任意类型的值。
+  - 如果无法推断出类型，TypeScript 就会认为该变量的类型是any
+  - any类型除了关闭类型检查，还有一个很大的问题，就是它会“污染”其他变量。
+- unknown 类型
+  - 为了解决any类型“污染”其他变量的问题，TypeScript 3.0 引入了unknown类型。它与any含义相同，表示类型不确定，可能是任意类型，但是它的使用有一些限制，不像any那样自由，可以视为严格版的 any
+  - unknown跟any的相似之处，在于所有类型的值都可以分配给unknown类型
+  - unknown类型的变量，不能直接赋值给其他类型的变量（除了any类型和unknown类型）
+  - 只有经过“类型缩小”，unknown类型变量才可以使用
+  - unknown可以看作是更安全的any。一般来说，凡是需要设为any类型的地方，通常都应该优先考虑设为unknown类型。
+- never 类型
+  - 为了保持与集合论的对应关系，以及类型运算的完整性，TypeScript 还引入了“空类型”的概念，即该类型为空，不包含任何值。
+  - 不可能返回值的函数，返回值的类型就可以写成never
+  - never类型的一个重要特点是，可以赋值给任意其他类型。
+- TypeScript 的基本类型
+  - boolean
+  - string
+  - number
+  - bigint
+  - symbol
+  - object
+    - object 类型包含了所有对象、数组和函数
+  - undefined
+    - 既可以作为值，也可以作为类型
+  - null
+    - 既可以作为值，也可以作为类型
+- TypeScript 对五种原始类型分别提供了大写和小写两种类型。
+  - Boolean 和 boolean
+  - String 和 string
+  - Number 和 number
+  - BigInt 和 bigint
+  - Symbol 和 symbol
+  - 其中，大写类型同时包含包装对象和字面量两种情况，小写类型只包含字面量，不包含包装对象。
+- Object 类型
+  - 大写的Object类型代表 JavaScript 语言里面的广义对象。所有可以转成对象的值，都是Object类型，这囊括了几乎所有的值。
+  - 小写的object类型代表 JavaScript 里面的狭义对象，即可以用字面量表示的对象，只包含对象、数组和函数，不包括原始类型的值。
+- 值类型
+  - TypeScript 规定，单个值也是一种类型，称为“值类型”。
+- 联合类型
+  - 联合类型（union types）指的是多个类型组成的一个新类型，使用符号|表示。
+  - 联合类型A|B表示，任何一个类型只要属于A或B，就属于联合类型A|B。
+  - 联合类型的第一个成员前面，也可以加上竖杠|，这样便于多行书写 |A|B|C
+- 交叉类型
+  - 交叉类型A&B表示，任何一个类型必须同时属于A和B，才属于交叉类型A&B，即交叉类型同时满足A和B的特征。
+- type 命令
+  - type命令用来定义一个类型的别名。
+- typeof 运算符
+  - TypeScript 将 typeof 运算符移植到了类型运算，它的操作数依然是一个值，但是返回的不是字符串，而是该值的 TypeScript 类型。
+```
 
 ### 五种原始数据类型
 
@@ -107,11 +181,11 @@ TypeScript 只会进行静态检查，如果发现有错误，编译的时候就
 
 ```js
 // 这样不会报错
-let num: number = undefined;
+let num: number = undefined
 
 // 这样也不会报错
-let u: undefined;
-let num: number = u;
+let u: undefined
+let num: number = u
 ```
 
 ### 任意值类 any
@@ -125,18 +199,17 @@ let num: number = u;
 以下代码虽然没有指定类型，但是会在编译的时候报错：
 
 ```js
-let myFavoriteNumber = 'seven';
-myFavoriteNumber = 7;
+let myFavoriteNumber = 'seven'
+myFavoriteNumber = 7
 
 // index.ts(2,1): error TS2322: Type 'number' is not assignable to type 'string'.
 ```
 
-
 事实上，它等价于：
 
 ```js
-let myFavoriteNumber: string = 'seven';
-myFavoriteNumber = 7;
+let myFavoriteNumber: string = 'seven'
+myFavoriteNumber = 7
 
 // index.ts(2,1): error TS2322: Type 'number' is not assignable to type 'string'.
 ```
@@ -170,7 +243,7 @@ myFavoriteNumber = true;
 
 ```js
 function getLength(something: string | number): number {
-    return something.length;
+  return something.length
 }
 
 // index.ts(2,22): error TS2339: Property 'length' does not exist on type 'string | number'.
@@ -183,18 +256,18 @@ function getLength(something: string | number): number {
 
 ```js
 function getString(something: string | number): string {
-    return something.toString();
+  return something.toString()
 }
 ```
 
 联合类型的变量在被赋值的时候，会根据类型推论的规则推断出一个类型：
 
 ```js
-let myFavoriteNumber: string | number;
-myFavoriteNumber = 'seven';
-console.log(myFavoriteNumber.length); // 5
-myFavoriteNumber = 7;
-console.log(myFavoriteNumber.length); // 编译时报错
+let myFavoriteNumber: string | number
+myFavoriteNumber = 'seven'
+console.log(myFavoriteNumber.length) // 5
+myFavoriteNumber = 7
+console.log(myFavoriteNumber.length) // 编译时报错
 
 // index.ts(5,30): error TS2339: Property 'length' does not exist on type 'number'.
 ```
@@ -214,14 +287,14 @@ TypeScript 中的接口是一个非常灵活的概念，除了可用于对类的
 
 ```js
 interface Person {
-    name: string;
-    age: number;
+  name: string;
+  age: number;
 }
 
 let tom: Person = {
-    name: 'Tom',
-    age: 25
-};
+  name: 'Tom',
+  age: 25,
+}
 ```
 
 上面的例子中，我们定义了一个接口 `Person`，接着定义了一个变量 `tom`，它的类型是 `Person`。这样，我们就约束了 `tom` 的形状必须和接口 `Person` 一致。
@@ -234,13 +307,13 @@ let tom: Person = {
 
 ```js
 interface Person {
-    name: string;
-    age?: number;
+  name: string;
+  age?: number;
 }
 
 let tom: Person = {
-    name: 'Tom'
-};
+  name: 'Tom',
+}
 ```
 
 #### 任意属性
@@ -249,21 +322,20 @@ let tom: Person = {
 
 ```js
 interface Person {
-    name: string;
-    age?: number;
-    [propName: string]: any;
+  name: string;
+  age?: number;
+  [propName: string]: any;
 }
 
 let tom: Person = {
-    name: 'Tom',
-    gender: 'male'
-};
+  name: 'Tom',
+  gender: 'male',
+}
 ```
 
 使用 `[propName: string]` 定义了任意属性取 `string` 类型的值。
 
 需要注意的是，一旦定义了任意属性，那么 **确定属性和可选属性的类型都必须是它的类型的子集**。
-
 
 ### 数组的类型
 
@@ -272,7 +344,7 @@ let tom: Person = {
 最简单的方法是使用「类型 + 方括号」来表示数组：
 
 ```js
-let fibonacci: number[] = [1, 1, 2, 3, 5];
+let fibonacci: number[] = [1, 1, 2, 3, 5]
 ```
 
 数组的项中不允许出现其他的类型：
@@ -299,7 +371,7 @@ fibonacci.push('8');
 我们也可以使用数组泛型（Array Generic） Array<elemType> 来表示数组：
 
 ```js
-let fibonacci: Array<number> = [1, 1, 2, 3, 5];
+let fibonacci: Array<number> = [1, 1, 2, 3, 5]
 ```
 
 #### 用接口表示数组
@@ -308,9 +380,9 @@ let fibonacci: Array<number> = [1, 1, 2, 3, 5];
 
 ```js
 interface NumberArray {
-    [index: number]: number;
+  [index: number]: number;
 }
-let fibonacci: NumberArray = [1, 1, 2, 3, 5];
+let fibonacci: NumberArray = [1, 1, 2, 3, 5]
 ```
 
 `NumberArray` 表示：只要索引的类型是数字时，那么值的类型必须是数字。
@@ -333,11 +405,11 @@ function sum() {
 
 ```js
 function sum() {
-    let args: {
-        [index: number]: number;
-        length: number;
-        callee: Function;
-    } = arguments;
+  let args: {
+    [index: number]: number,
+    length: number,
+    callee: Function,
+  } = arguments
 }
 ```
 
@@ -350,14 +422,14 @@ function sum() {
 一个比较常见的做法是，用 any 表示数组中允许出现任意类型：
 
 ```js
-let list: any[] = ['xcatliu', 25, { website: 'http://xcatliu.com' }];
+let list: any[] = ['xcatliu', 25, { website: 'http://xcatliu.com' }]
 ```
 
 ### 函数的类型
 
-​函数是 JavaScript 中的一等公民​
+​ 函数是 JavaScript 中的一等公民 ​
 
-####  函数声明
+#### 函数声明
 
 在 JavaScript 中，有两种常见的定义函数的方式——函数声明（Function Declaration）和函数表达式（Function Expression）：
 
@@ -377,12 +449,11 @@ let mySum = function (x, y) {
 
 ```js
 function sum(x: number, y: number): number {
-    return x + y;
+  return x + y
 }
 ```
 
 注意，**输入多余的（或者少于要求的）参数，是不被允许的**
-
 
 #### 函数表达式
 
@@ -390,16 +461,19 @@ function sum(x: number, y: number): number {
 
 ```js
 let mySum = function (x: number, y: number): number {
-    return x + y;
-};
+  return x + y
+}
 ```
 
 这是可以通过编译的，不过事实上，上面的代码只对等号右侧的匿名函数进行了类型定义，而等号左边的 `mySum`，是通过赋值操作进行类型推论而推断出来的。如果需要我们手动给 `mySum` 添加类型，则应该是这样：
 
 ```js
-let mySum: (x: number, y: number) => number = function (x: number, y: number): number {
-    return x + y;
-};
+let mySum: (x: number, y: number) => number = function (
+  x: number,
+  y: number
+): number {
+  return x + y
+}
 ```
 
 注意不要混淆了 TypeScript 中的 `=>` 和 ES6 中的 `=>`。
@@ -412,12 +486,12 @@ let mySum: (x: number, y: number) => number = function (x: number, y: number): n
 
 ```js
 interface SearchFunc {
-    (source: string, subString: string): boolean;
+  (source: string, subString: string): boolean;
 }
 
-let mySearch: SearchFunc;
-mySearch = function(source: string, subString: string) {
-    return source.search(subString) !== -1;
+let mySearch: SearchFunc
+mySearch = function (source: string, subString: string) {
+  return source.search(subString) !== -1
 }
 ```
 
@@ -429,14 +503,14 @@ mySearch = function(source: string, subString: string) {
 
 ```js
 function buildName(firstName: string, lastName?: string) {
-    if (lastName) {
-        return firstName + ' ' + lastName;
-    } else {
-        return firstName;
-    }
+  if (lastName) {
+    return firstName + ' ' + lastName
+  } else {
+    return firstName
+  }
 }
-let tomcat = buildName('Tom', 'Cat');
-let tom = buildName('Tom');
+let tomcat = buildName('Tom', 'Cat')
+let tom = buildName('Tom')
 ```
 
 需要注意的是，可选参数必须接在必需参数后面。换句话说，**可选参数后面不允许再出现必需参数了**。
@@ -447,10 +521,10 @@ let tom = buildName('Tom');
 
 ```js
 function buildName(firstName: string, lastName: string = 'Cat') {
-    return firstName + ' ' + lastName;
+  return firstName + ' ' + lastName
 }
-let tomcat = buildName('Tom', 'Cat');
-let tom = buildName('Tom');
+let tomcat = buildName('Tom', 'Cat')
+let tom = buildName('Tom')
 ```
 
 此时就不受「可选参数必须接在必需参数后面」的限制了。
@@ -461,26 +535,26 @@ ES6 中，可以使用 ...rest 的方式获取函数中的剩余参数（rest �
 
 ```js
 function push(array, ...items) {
-    items.forEach(function(item) {
-        array.push(item);
-    });
+  items.forEach(function (item) {
+    array.push(item)
+  })
 }
 
-let a = [];
-push(a, 1, 2, 3);
+let a = []
+push(a, 1, 2, 3)
 ```
 
 事实上，items 是一个数组。所以我们可以用数组的类型来定义它：
 
 ```js
 function push(array: any[], ...items: any[]) {
-    items.forEach(function(item) {
-        array.push(item);
-    });
+  items.forEach(function (item) {
+    array.push(item)
+  })
 }
 
-let a = [];
-push(a, 1, 2, 3);
+let a = []
+push(a, 1, 2, 3)
 ```
 
 注意，rest 参数只能是最后一个参数，关于 rest 参数，可以参考 ES6 中的 rest 参数。
@@ -495,11 +569,11 @@ push(a, 1, 2, 3);
 
 ```js
 function reverse(x: number | string): number | string {
-    if (typeof x === 'number') {
-        return Number(x.toString().split('').reverse().join(''));
-    } else if (typeof x === 'string') {
-        return x.split('').reverse().join('');
-    }
+  if (typeof x === 'number') {
+    return Number(x.toString().split('').reverse().join(''))
+  } else if (typeof x === 'string') {
+    return x.split('').reverse().join('')
+  }
 }
 ```
 
@@ -532,6 +606,7 @@ function reverse(x: number | string): number | string {
 ```
 <类型>值
 ```
+
 或
 
 ```
@@ -546,7 +621,7 @@ function reverse(x: number | string): number | string {
 
 ```js
 function getLength(something: string | number): number {
-    return something.length;
+  return something.length
 }
 
 // index.ts(2,22): error TS2339: Property 'length' does not exist on type 'string | number'.
@@ -557,11 +632,11 @@ function getLength(something: string | number): number {
 
 ```js
 function getLength(something: string | number): number {
-    if (something.length) {
-        return something.length;
-    } else {
-        return something.toString().length;
-    }
+  if (something.length) {
+    return something.length
+  } else {
+    return something.toString().length
+  }
 }
 
 // index.ts(2,19): error TS2339: Property 'length' does not exist on type 'string | number'.
@@ -583,6 +658,7 @@ function getLength(something: string | number): number {
     }
 }
 ```
+
 类型断言的用法如上，在需要断言的变量前加上 `<Type>` 即可。
 
 **类型断言不是类型转换，断言成一个联合类型中不存在的类型是不允许的：**
@@ -626,24 +702,24 @@ function toBoolean(something: string | number): boolean {
 我们通常这样获取一个 id 是 foo 的元素：
 
 ```js
-$('#foo');
+$('#foo')
 // or
-jQuery('#foo');
+jQuery('#foo')
 ```
 
-但是在 ts 中，编译器并不知道 `$` 或 `jQuery` 是什么东西1：
+但是在 ts 中，编译器并不知道 `$` 或 `jQuery` 是什么东西 1：
 
 ```js
-jQuery('#foo');
+jQuery('#foo')
 // ERROR: Cannot find name 'jQuery'.
 ```
 
-这时，我们需要使用 `declare var` 来定义它的类型2：
+这时，我们需要使用 `declare var` 来定义它的类型 2：
 
 ```js
-declare var jQuery: (selector: string) => any;
+declare var jQuery: (selector: string) => any
 
-jQuery('#foo');
+jQuery('#foo')
 ```
 
 上例中，`declare var` 并没有真的定义一个变量，只是定义了全局变量 jQuery 的类型，仅仅会用于编译时的检查，在编译结果中会被删除。它编译结果是：
@@ -655,13 +731,13 @@ jQuery('#foo');
 ```js
 // src/jQuery.d.ts
 
-declare var jQuery: (selector: string) => any;
+declare var jQuery: (selector: string) => any
 ```
 
 ```js
 // src/index.ts
 
-jQuery('#foo');
+jQuery('#foo')
 ```
 
 声明文件必需以 `.d.ts` 为后缀。
@@ -703,10 +779,10 @@ ECMAScript 标准提供的内置对象有：`Boolean`、`Error`、`Date`、`RegE
 我们可以在 TypeScript 中将变量定义为这些类型：
 
 ```js
-let b: Boolean = new Boolean(1);
-let e: Error = new Error('Error occurred');
-let d: Date = new Date();
-let r: RegExp = /[a-z]/;
+let b: Boolean = new Boolean(1)
+let e: Error = new Error('Error occurred')
+let d: Date = new Date()
+let r: RegExp = /[a-z]/
 ```
 
 更多的内置对象，可以查看 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects) 的文档。
@@ -720,12 +796,12 @@ DOM 和 BOM 提供的内置对象有：`Document`、`HTMLElement`、`Event`、`N
 TypeScript 中会经常用到这些类型：
 
 ```js
-let body: HTMLElement = document.body;
-let allDiv: NodeList = document.querySelectorAll('div');
+let body: HTMLElement = document.body
+let allDiv: NodeList = document.querySelectorAll('div')
 
-document.addEventListener('click', function(e: MouseEvent) {
+document.addEventListener('click', function (e: MouseEvent) {
   // Do something
-});
+})
 ```
 
 ### 用 TypeScript 写 Node.js
@@ -736,7 +812,6 @@ Node.js 不是内置对象的一部分，如果想用 TypeScript 写 Node.js，�
 npm install @types/node --save-dev
 ```
 
-
 ## 类型别名
 
 类型别名用来给一个类型起个新名字。
@@ -744,22 +819,21 @@ npm install @types/node --save-dev
 简单的例子
 
 ```js
-type Name = string;
-type NameResolver = () => string;
-type NameOrResolver = Name | NameResolver;
+type Name = string
+type NameResolver = () => string
+type NameOrResolver = Name | NameResolver
 function getName(n: NameOrResolver): Name {
-    if (typeof n === 'string') {
-        return n;
-    } else {
-        return n();
-    }
+  if (typeof n === 'string') {
+    return n
+  } else {
+    return n()
+  }
 }
 ```
 
 上例中，我们使用 `type` 创建类型别名。
 
 类型别名常用于联合类型。
-
 
 ## 字符串字面量类型
 
@@ -783,7 +857,6 @@ handleEvent(document.getElementById('world'), 'dbclick'); // 报错，event 不�
 
 注意，类型别名与字符串字面量类型都是使用 type 进行定义。
 
-
 ## 元组
 
 数组合并了相同类型的对象，而元组（Tuple）合并了不同类型的对象。
@@ -795,7 +868,7 @@ handleEvent(document.getElementById('world'), 'dbclick'); // 报错，event 不�
 定义一对值分别为 string 和 number 的元组：
 
 ```js
-let tom: [string, number] = ['Tom', 25];
+let tom: [string, number] = ['Tom', 25]
 ```
 
 当赋值或访问一个已知索引的元素时，会得到正确的类型：
@@ -812,8 +885,8 @@ tom[1].toFixed(2);
 也可以只赋值其中一项：
 
 ```js
-let tom: [string, number];
-tom[0] = 'Tom';
+let tom: [string, number]
+tom[0] = 'Tom'
 ```
 
 但是当直接对元组类型的变量进行初始化或者赋值的时候，需要提供所有元组类型中指定的项。

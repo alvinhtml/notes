@@ -79,14 +79,14 @@ manifest 范例:
 下面的代码通过构造函数 Worker() 创建了一个 Worker 对象。
 
 ```js
-var myWorker = new Worker("worker.js");
-var first = document.querySelector("#number1");
-var second = document.querySelector("#number2");
+var myWorker = new Worker('worker.js')
+var first = document.querySelector('#number1')
+var second = document.querySelector('#number2')
 
 first.onchange = function () {
-  myWorker.postMessage([first.value, second.value]);
-  console.log("Message posted to worker");
-};
+  myWorker.postMessage([first.value, second.value])
+  console.log('Message posted to worker')
+}
 ```
 
 #### service worker 特点
@@ -104,22 +104,22 @@ first.onchange = function () {
 - 注册 service worker, 返回的是一个 promise 对象
 
 ```js
-window.addEventListener("load", () => {
-  if ("serviceWorker" in navigator) {
+window.addEventListener('load', () => {
+  if ('serviceWorker' in navigator) {
     // Register a service worker hosted at the root of the
     // site using the default scope.
-    navigator.serviceWorker.register("/sw.js").then(
+    navigator.serviceWorker.register('/sw.js').then(
       function (registration) {
-        console.log("Service worker registration succeeded:", registration);
+        console.log('Service worker registration succeeded:', registration)
       },
       /*catch*/ function (error) {
-        console.log("Service worker registration failed:", error);
+        console.log('Service worker registration failed:', error)
       }
-    );
+    )
   } else {
-    console.log("Service workers are not supported.");
+    console.log('Service workers are not supported.')
   }
-});
+})
 ```
 
 #### 生命周期
@@ -129,22 +129,22 @@ window.addEventListener("load", () => {
 - fetch 发送请求的时候触发
 
 ```js
-self.addEventListener("install", (event) => {
-  console.log("install", event);
+self.addEventListener('install', (event) => {
+  console.log('install', event)
   // service worker 跳过等待   直接进入activate
-  event.waitUntil(self.skipWaiting());
-});
+  event.waitUntil(self.skipWaiting())
+})
 
-self.addEventListener("activate", (event) => {
-  console.log("activate", event);
+self.addEventListener('activate', (event) => {
+  console.log('activate', event)
 
   // 表示service worker激活后，立即获取控制器
-  event.waitUntil(self.clients.claim());
-});
+  event.waitUntil(self.clients.claim())
+})
 
-self.addEventListener("fetch", (event) => {
-  console.log("fetch", event);
-});
+self.addEventListener('fetch', (event) => {
+  console.log('fetch', event)
+})
 ```
 
 #### cache storage
@@ -170,24 +170,24 @@ CacheStorage 同样暴露了 CacheStorage.open() 和 CacheStorage.match()方法�
 ```js
 function notifyMe() {
   // 先检查浏览器是否支持
-  if (!("Notification" in window)) {
-    alert("This browser does not support desktop notification");
+  if (!('Notification' in window)) {
+    alert('This browser does not support desktop notification')
   }
 
   // 检查用户是否同意接受通知
-  else if (Notification.permission === "granted") {
+  else if (Notification.permission === 'granted') {
     // If it's okay let's create a notification
-    var notification = new Notification("Hi there!");
+    var notification = new Notification('Hi there!')
   }
 
   // 否则我们需要向用户获取权限
-  else if (Notification.permission !== "denied") {
+  else if (Notification.permission !== 'denied') {
     Notification.requestPermission().then(function (permission) {
       // 如果用户接受权限，我们就可以发起一条消息
-      if (permission === "granted") {
-        var notification = new Notification("Hi there!");
+      if (permission === 'granted') {
+        var notification = new Notification('Hi there!')
       }
-    });
+    })
   }
 
   // 最后，如果执行到这里，说明用户已经拒绝对相关通知进行授权
