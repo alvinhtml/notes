@@ -23,7 +23,6 @@ $ npm prefix -g
 # 查看全局安装过的模块
 npm list -g
 npm list -g --depth 0
-
 # 如果不添加--depth 0 会将更详细的列表展示出来。
 ```
 

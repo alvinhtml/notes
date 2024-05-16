@@ -190,6 +190,19 @@ docker build -t nginx:v3 .
 node_modules
 ```
 
+### 多节段构建
+
+第一个节段用来构建需要的文件，第二个节段基于一个精简镜像将上一个节段构建好的文件 copy 过去
+
+```dockerfile
+FROM gcc AS mybuildstage
+COPY hello.c .
+RUN gcc -o hello hello.c
+FROM ubuntu
+COPY --from=mybuildstage hello .
+CMD ["./hello"]
+```
+
 ## Dokcer network
 
 ```bash

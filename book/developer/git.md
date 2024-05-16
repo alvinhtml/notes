@@ -24,6 +24,50 @@ Git 里有三个区域很重要
 
 所以需要 git add。这个命令的意思是，把 Changed 的文件的内容同步到 Index 区域里。这样 Working Directory 和 Index 区域的内容就一致了。这个过程被称之为 stage
 
+## 查看 log
+
+```sh
+# 查看提交记录
+git log
+
+# 以简洁的方式查看提交记录
+git log —oneline
+
+# 根据时间段筛选提交信息
+git log --after="2020-05-15" --before="2020-05-25"
+git log --after="yesterday" # shows only commits from yeserday
+git log --after="today" # shows only today commits
+git log --before="10 day ago" # omits last 10 days commits
+git log --after="1 week ago" # show only commits from last week
+git log --after="2 week ago"
+git log --after="2 month ago" # shows only last 2 months commits
+
+
+# 带变更差异信息的 git 日志
+git log -p
+
+# 根据作者筛选提交记录
+git log --author="Srebalaji"
+
+# 根据日志提交信息过滤提交记录
+git log --grep="ISSUE-43560"
+
+# 通过文件过滤提交记录
+git log main.rb search.rb login.rb
+
+# 根据文件内容过滤提交记录
+git log -S"function login()"
+
+# 只显示合并提交
+git log --merges
+
+# 显示两个分支的差异
+git log master..develop
+
+# 自定义日志消息的格式
+git log --pretty=format:"%Cred%an - %ar%n %Cblue %h -%Cgreen %s %n"
+```
+
 ## 分支操作
 
 ### 合并到上一次 commit

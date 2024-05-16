@@ -2,6 +2,29 @@
 
 ## PostgreSQL 命令行操作
 
+1. 建立数据库连接
+
+```sh
+# psql -h IP地址 -p 端口 -U 数据库名
+psql -U postgre hf
+```
+
+2. 访问数据库
+
+- 1、列举数据库：`\l`
+- 2、选择数据库：`\c` 数据库名
+- 3、查看该某个库中的所有表：`\dt`
+- 4、切换数据库：`\c` interface
+- 5、查看某个库中的某个表结构：`\d` 表名
+- 6、查看某个库中某个表的记录：`select * from apps limit 1;`
+- 7、显示字符集：`\encoding`
+- 8、退出 psgl：`\q`
+- 9、切换表显示方向 `\x`
+
+```sh
+\x
+```
+
 ## Postgres 索引
 
 Postgres 现在支持 多种类型 的索引，了解基础知识是使用 Postgres 的关键部分。
