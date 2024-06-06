@@ -21,10 +21,6 @@ psql -U postgre hf
 - 8、退出 psgl：`\q`
 - 9、切换表显示方向 `\x`
 
-```sh
-\x
-```
-
 ## Postgres 索引
 
 Postgres 现在支持 多种类型 的索引，了解基础知识是使用 Postgres 的关键部分。

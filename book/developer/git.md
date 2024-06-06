@@ -242,6 +242,8 @@ git pull alvin-ksphere master --allow-unrelated-histories
 
 ## cherry-pick
 
+快速 merge commit 到其它分支
+
 ```bash
 git cherry-pick commit1 commit2 commit3 commit4 commit5
 
@@ -363,7 +365,10 @@ git am --resolved
 git diff b70f3992cd63de7b9652326896b72e8f10f2de16 |grep ^diff|sed -e 's/^.* b\///'|xargs tar zcf /tmp/t.tgz
 ```
 
+## git 常规开发使用流程
+
 1. fork 主仓库
+
 2. 克隆仓库到本地
 
 ```bash
