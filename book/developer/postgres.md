@@ -14,12 +14,24 @@ psql -U postgre hf
 - 1、列举数据库：`\l`
 - 2、选择数据库：`\c` 数据库名
 - 3、查看该某个库中的所有表：`\dt`
-- 4、切换数据库：`\c` interface
-- 5、查看某个库中的某个表结构：`\d` 表名
-- 6、查看某个库中某个表的记录：`select * from apps limit 1;`
-- 7、显示字符集：`\encoding`
-- 8、退出 psgl：`\q`
-- 9、切换表显示方向 `\x`
+- 4、显示某个表的字段信息：`\d table_name`
+- 5、切换数据库：`\c` interface
+- 6、查看某个库中的某个表结构：`\d` 表名
+- 7、查看某个库中某个表的记录：`select * from apps limit 1;`
+- 8、显示字符集：`\encoding`
+- 9、退出 psgl：`\q`
+- 10、切换表显示方向 `\x`
+
+## 常用 SQL
+
+### 删除表
+
+```sql
+DROP TABLE table_name;
+
+-- 如果你不确定表是否存在，并且想在表不存在时避免错误，可以使用 IF EXISTS 子句：
+DROP TABLE IF EXISTS table_name;
+```
 
 ## Postgres 索引
 

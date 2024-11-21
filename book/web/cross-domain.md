@@ -4,7 +4,7 @@
 
 JSONP 的原理很简单，就是利用 `<script>` 标签没有跨域的限制的漏洞。当需要通讯时，通过 `<script>` 标签指向一个需要访问的地址，并提供一个回调函数来接收数据。
 
-JSONP使用简单并且兼容性不错，但是只限于get请求。
+JSONP 使用简单并且兼容性不错，但是只限于 get 请求。
 
 ```html
 <script src="http://www.alvinhtml.com/api?&callback=jsonp"></script>
@@ -15,19 +15,22 @@ JSONP使用简单并且兼容性不错，但是只限于get请求。
 </script>
 ```
 
-
 ## CORS
 
-跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器  让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域、协议或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
+CORS 是一个 W3C 标准，全称是"跨域资源共享"（Cross-origin resource sharing）。
 
-出于安全原因，浏览器限制从脚本内发起的跨源HTTP请求。 例如，XMLHttpRequest和Fetch API遵循同源策略。 这意味着使用这些API的Web应用程序只能从加载应用程序的同一个域请求HTTP资源，除非响应报文包含了正确CORS响应头。
+它允许浏览器向跨源服务器，发出 XMLHttpRequest 请求，从而克服了 AJAX 只能同源使用的限制。
+
+跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器 让运行在一个 origin (domain) 上的 Web 应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域、协议或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
+
+出于安全原因，浏览器限制从脚本内发起的跨源 HTTP 请求。 例如，XMLHttpRequest 和 Fetch API 遵循同源策略。 这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非响应报文包含了正确 CORS 响应头。
 
 跨域资源共享（ CORS ）机制允许 Web 应用服务器进行跨域访问控制，从而使跨域数据传输得以安全进行。现代浏览器支持在 API 容器中（例如 XMLHttpRequest 或 Fetch ）使用 CORS，以降低跨域 HTTP 请求所带来的风险。
 
-CORS需要浏览器和后端同时支持。IE 8 和 9 需要通过XDonmainRequest来实现。
+CORS 需要浏览器和后端同时支持。IE 8 和 9 需要通过 XDonmainRequest 来实现。
 
 浏览器会自动进行 CORS 通信，实现 CORS 通信的关键是后端，只要后端实现了 CORS ，就实现了跨域。
-服务端设置 Access-C 动态容量 —Allow-Origin 就可以开启CORS。此属性表示哪些域名可以访问资源。
+服务端设置 Access-C 动态容量 —Allow-Origin 就可以开启 CORS。此属性表示哪些域名可以访问资源。
 
 ### 什么情况下需要 CORS ？
 
@@ -73,16 +76,15 @@ Content-Type: application/xml
 [XML Data]
 ```
 
-使用 Origin 和 Access-Control-Allow-Origin 就能完成最简单的访问控制。本例中，服务端返回的 Access-Control-Allow-Origin: * 表明，该资源可以被任意外域访问。如果服务端仅允许来自 http://foo.example 的访问，该首部字段的内容如下：
+使用 Origin 和 Access-Control-Allow-Origin 就能完成最简单的访问控制。本例中，服务端返回的 Access-Control-Allow-Origin: \* 表明，该资源可以被任意外域访问。如果服务端仅允许来自 http://foo.example 的访问，该首部字段的内容如下：
 
 ```
 Access-Control-Allow-Origin: http://foo.example
 ```
-现在，除了 http://foo.example，其它外域均不能访问该资源（该策略由请求首部中的 ORIGIN 字段定义，见第10行）。Access-Control-Allow-Origin 应当为 * 或者包含由 Origin 首部字段所指明的域名。
 
+现在，除了 http://foo.example，其它外域均不能访问该资源（该策略由请求首部中的 ORIGIN 字段定义，见第 10 行）。Access-Control-Allow-Origin 应当为 \* 或者包含由 Origin 首部字段所指明的域名。
 
 ### HTTP 响应首部字段节
-
 
 #### Access-Control-Allow-Origin
 
@@ -96,7 +98,7 @@ Access-Control-Allow-Origin: <origin> | *
 
 #### Access-Control-Expose-Headers
 
-在跨域访问时，XMLHttpRequest对象的getResponseHeader()方法只能拿到一些最基本的响应头，Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma，如果要访问其他头，则需要服务器设置本响应头。
+在跨域访问时，XMLHttpRequest 对象的 getResponseHeader()方法只能拿到一些最基本的响应头，Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma，如果要访问其他头，则需要服务器设置本响应头。
 
 Access-Control-Expose-Headers 头让服务器把允许浏览器访问的头放入白名单，例如：
 
@@ -104,21 +106,21 @@ Access-Control-Expose-Headers 头让服务器把允许浏览器访问的头放�
 Access-Control-Expose-Headers: X-My-Custom-Header, X-Another-Custom-Header
 ```
 
-这样浏览器就能够通过getResponseHeader访问X-My-Custom-Header和 X-Another-Custom-Header 响应头了。
+这样浏览器就能够通过 getResponseHeader 访问 X-My-Custom-Header 和 X-Another-Custom-Header 响应头了。
 
 #### Access-Control-Max-Age
 
-Access-Control-Max-Age 头指定了preflight请求的结果能够被缓存多久，请参考本文在前面提到的preflight例子。
+Access-Control-Max-Age 头指定了 preflight 请求的结果能够被缓存多久，请参考本文在前面提到的 preflight 例子。
 
 ```
 Access-Control-Max-Age: <delta-seconds>
 ```
 
-delta-seconds 参数表示preflight请求的结果在多少秒内有效。
+delta-seconds 参数表示 preflight 请求的结果在多少秒内有效。
 
 #### Access-Control-Allow-Credentials
 
-Access-Control-Allow-Credentials 头指定了当浏览器的credentials设置为true时是否允许浏览器读取response的内容。当用在对preflight预检测请求的响应中时，它指定了实际的请求是否可以使用credentials。请注意：简单 GET 请求不会被预检；如果对此类请求的响应中不包含该字段，这个响应将被忽略掉，并且浏览器也不会将相应内容返回给网页。
+Access-Control-Allow-Credentials 头指定了当浏览器的 credentials 设置为 true 时是否允许浏览器读取 response 的内容。当用在对 preflight 预检测请求的响应中时，它指定了实际的请求是否可以使用 credentials。请注意：简单 GET 请求不会被预检；如果对此类请求的响应中不包含该字段，这个响应将被忽略掉，并且浏览器也不会将相应内容返回给网页。
 
 ```
 Access-Control-Allow-Credentials: true
@@ -180,22 +182,20 @@ Access-Control-Request-Headers: <field-name>[, <field-name>]*
 
 只需要给页面添加 document.domain = 'alvinhtml.com' 表示主域名都相同就可以实现跨域。
 
-domain 只能设置为主域名，不可以在b.alvinhtml.com中将domain设置为 c.alvinhtml.com。
-
-
+domain 只能设置为主域名，不可以在 b.alvinhtml.com 中将 domain 设置为 c.alvinhtml.com。
 
 ## postMessage
 
 ```js
 // 发送消息端
-window.parent.postMessage('message','http://alvinhtml.com')
+window.parent.postMessage('message', 'http://alvinhtml.com')
 
 //接收消息端
-const myMessage = new MessageChannel();
+const myMessage = new MessageChannel()
 
-myMessage.addEventListener('message', event => {
+myMessage.addEventListener('message', (event) => {
   var origin = even.origin || event.originalEvent.origin
-  if(origin === 'http://alvinhtml.com') {
+  if (origin === 'http://alvinhtml.com') {
     console.log('验证通过')
   }
 })
